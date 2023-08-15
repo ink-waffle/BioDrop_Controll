@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>Motor Control</title>
+	<style>
+		body {
+			background-color: black;
+			color: gray;
+			font-family: Arial, sans-serif;
+			font-size: 16px;
+			text-align: center;
+		}
+		img {
+			display: block;
+			margin: 0 auto;
+			max-width: 100%;
+			height: auto;
+		}
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			/*height: 100vh;*/
+		}
+		.button {
+			display: inline-block;
+			padding: 16px 32px;
+			margin: 16px;
+			background-color: gray;
+			color: black;
+			border: none;
+			border-radius: 8px;
+			font-size: 24px;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+		.button:hover {
+			background-color: #dcdcdc;
+		}
+		#graph {
+      		border-style: 1px white;
+    	}
+
+	</style>
+</head>
+<body>
+	<div class="container">
+		<img src="/static/logo.png" alt="logo" width="128" height="128">
+		<img src="/static/image.png" alt="image">
+		<canvas id="graph" width="400" height="400"></canvas>
+		<script>
+		    // Get the canvas element and its context
+		    const canvas = document.getElementById('graph');
+		    const context = canvas.getContext('2d');
+		    // Set the initial position
+		    let width = canvas.width
+		    let height = canvas.height
+		    let initialX = width / 2;
+		    let initialY = height / 2;
+		    // Set the scale and unit
+		    const scale = 20; // Number of pixels per unit
+		    let unit = 5; // Unit of measurement
+		    // Update the position based on the received data
+		    function updatePosition(x, y) {
+		    	// Clear the canvas
+			      context.clearRect(0, 0, width, height);
+
+			      // Draw the grid lines
+			      for (let i = 0; i <= width; i += scale) {
+			      	if(i % 100 == 0){
+			      	context.strokeStyle = '#ccc';}
+			      	else{
+			      		context.strokeStyle = '#555';}
+			        context.beginPath();
+			        context.moveTo(i, 0);
+			        context.lineTo(i, height);
+			        context.stroke();
+			      }
+			      for (let i = 0; i <= height; i += scale) {
+			      	if(i % 100 == 0){
+			      	context.strokeStyle = '#ccc';}
+			      	else{
+			      		context.strokeStyle = '#555';}
+			        context.beginPath();
+			        context.moveTo(0, i);
+			        context.lineTo(width, i);
+			        context.stroke();
+			      }
+
+			      // Draw the labels
+			      context.fillStyle = 'white';
+			      for (let i = -initialX; i <= width - initialX; i += scale * 5) {
+			        context.fillText((i / scale) * unit, i + initialX + (-10 * (i/Math.abs(i))) - 5, initialY + 10);
+			      }
+			      for (let i = -initialY; i <= height - initialY; i += scale * 5) {
+			      	// alert((i / scale) * unit)
+			        context.fillText((i / scale) * unit, initialX + 2, initialY - i + (10 * (i/Math.abs(i))) + 5);
+			      }
+		      // Draw the initial position
+		      context.fillStyle = 'red';
+		      context.fillRect(initialX - 2, initialY - 2, 4, 4);
+
+		      // Draw the current position
+		      context.fillStyle = 'blue';
+		      context.fillRect(x + initialX - 2, initialY - y - 2, 4, 4);
+
+		      // Draw the line connecting the initial and current positions
+		      context.strokeStyle = 'white';
+		      context.beginPath();
+		      context.moveTo(initialX, initialY);
+		      context.lineTo(x + initialX, initialY - y);
+		      context.stroke();
+		    }
+
+		    // Simulate receiving data from Python script
+		    // Replace this with your actual logic to receive data from Python
+		    function receivePositionData() {
+		      // Make an AJAX request to Flask endpoint
+		      fetch('/position')
+		        .then(response => response.json())
+		        .then(data => {
+		          if(data.x > (unit*10) || data.x < (-unit*10) || data.y > (unit*10) || data.y < (-unit*10)){
+		          	unit *= 2
+		          }
+		          const x = data.x/unit * scale;
+		          const y = data.y/unit * scale;
+
+		          // Update the position
+		          updatePosition(x, y);
+		        })
+		        .catch(error => console.error('Error:', error));
+		    }
+
+		    // Call the receivePositionData function periodically
+		    setInterval(receivePositionData, 200); // Adjust the interval as needed
+		</script>
+		  <form action="/process" method="post" >
+			<label for="input_interval">Time Interval:</label>
+			<input type="text" name="input_interval" id="input_interval" value="{{ input_interval }}" onchange="this.form.submit()">
+			<br>
+		  </form>
+		<form action="/motor_control" method="post">
+			<button class="button" type="submit" name="submit_button" value="toggleMotor">Toggle Motor</button>
+			<button class="button" type="submit" name="submit_button" value="inPlace">Toggle In-Place</button>
+		</form>
+	</div>
+</body>
+</html>
