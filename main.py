@@ -292,6 +292,7 @@ if __name__ == "__main__":
     motorHandler = MotorControlHandler(realtimeHandler)
     gpsHandler = GPSHandler(realtimeHandler, motorHandler)
     while gpsHandler.isInitialised is False:
+        print("initialising...\n")
         gpsHandler.tryInitialising()
         sleep(0.25)
     currentTick = 0
