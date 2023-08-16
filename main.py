@@ -204,7 +204,7 @@ class RealtimePositionHandler:
                              [self.state[1, 0]]])
         velocity = np.array([[self.state[2, 0]],
                              [self.state[3, 0]]])
-        self.tick_fromLastUPD += refreshTime
+        self.tick_fromLastUPD += 1
         self.currentPosition = position + (velocity * self.tick_fromLastUPD)
 
 
@@ -275,6 +275,10 @@ gpsHandler = None
 motorHandler = None
 motorRunning = False
 
+def runFlask():
+    app.run(host='0.0.0.0', port=5000, debug=False, threaded=True)
+
+
 if __name__ == "__main__":
     # define GPIO pins
     GPIO_pins = (14, 15, 18)  # Microstep Resolution MS1-MS3 -> GPIO Pin
@@ -290,8 +294,10 @@ if __name__ == "__main__":
     realtimeHandler = RealtimePositionHandler()
     motorHandler = MotorControlHandler(realtimeHandler)
     gpsHandler = GPSHandler(realtimeHandler, motorHandler)
-    currentTick = 0
-    app.run(host='0.0.0.0', port=5000, debug=False, threaded=True)
+
+    flaskThread = threading.Thread(target=runFlask)
+    flaskThread.start()
+
     while True:
         if gpsHandler.isInitialised is True:
             gpsHandler.receiveGPSData_LR()
