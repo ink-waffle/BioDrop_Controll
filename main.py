@@ -283,7 +283,7 @@ if __name__ == "__main__":
 
     mainmotor = RpiMotorLib.A4988Nema(direction, step, GPIO_pins, "A4988")
     pi = pigpio.pi()
-    pi.set_mode(RX_PIN, pigpio.INPUT)
+    pi.set_mode(23, pigpio.INPUT)
     pi.bb_serial_read_open(23, 9600, 8)
 
     currentTick = 0  # 10^-2 seconds
