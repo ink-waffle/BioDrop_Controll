@@ -17,7 +17,7 @@ class GPSHandler:
         self.stateHistory = dict()
         self.isInitialised = False
         self.tick = 0
-        self.realtimeHandler: realtimeHandler = realtimeH
+        self.realtimeHandler: RealtimePositionHandler = realtimeH
         self.MotorControlHandler: MotorControlHandler = motorH
         self.lastState: np.array = None
         self.prelastState: np.array = None
@@ -280,27 +280,27 @@ if __name__ == "__main__":
     GPIO_pins = (14, 15, 18)  # Microstep Resolution MS1-MS3 -> GPIO Pin
     direction = 20  # Direction -> GPIO Pin
     step = 21  # Step -> GPIO Pin
-    RX_PIN = 23
 
     mainmotor = RpiMotorLib.A4988Nema(direction, step, GPIO_pins, "A4988")
     pi = pigpio.pi()
     pi.set_mode(RX_PIN, pigpio.INPUT)
-    pi.bb_serial_read_open(RX_PIN, 9600, 8)
+    pi.bb_serial_read_open(23, 9600, 8)
 
     currentTick = 0  # 10^-2 seconds
     realtimeHandler = RealtimePositionHandler()
     motorHandler = MotorControlHandler(realtimeHandler)
     gpsHandler = GPSHandler(realtimeHandler, motorHandler)
-    while gpsHandler.isInitialised is False:
-        print("initialising...\n")
-        gpsHandler.tryInitialising()
-        sleep(0.25)
     currentTick = 0
     app.run(host='0.0.0.0', port=5000, debug=False, threaded=True)
     while True:
-        gpsHandler.receiveGPSData_LR()
+        if gpsHandler.isInitialised is True:
+            gpsHandler.receiveGPSData_LR()
         realtimeHandler.updatePostion()
         if motorRunning:
             motorHandler.motorControlRoutine()
+        if gpsHandler.isInitialised is False and currentTick % 5 == 0:
+            if currentTick % 250 == 0:
+                print("initialising...")
+            gpsHandler.tryInitialising()
         currentTick += 1
         sleep(0.01)
