@@ -268,7 +268,7 @@ def get_position():
 def motor_control():
     global motorRunning
     motorRunning = not motorRunning
-
+    return "Motor Running = " + str(motorRunning)
 
 realtimeHandler = None
 gpsHandler = None
