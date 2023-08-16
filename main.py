@@ -63,7 +63,7 @@ class GPSHandler:
         a = self.initialX
         b = self.initialY
         c = -1000000
-        (count, data) = pi.bb_serial_read(RX_PIN)
+        (count, data) = pi.bb_serial_read(23)
         if not count:
             return
         buffer = data.decode('utf-8', errors='ignore')
