@@ -8,7 +8,7 @@ from collections import deque
 from time import sleep
 from flask import Flask, render_template, request, jsonify
 import os
-
+import threading
 
 class GPSHandler:
     def __init__(self, realtimeH, motorH):
