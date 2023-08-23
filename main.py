@@ -221,9 +221,10 @@ class MotorControlHandler:
         self.updated = False
         self.lastPosTick = 0
         self.realtimeHandler: realtimeHandler = realtimeH
-        GPIO_pins = (4, 27, 22)  # Microstep Resolution MS1-MS3 -> GPIO Pin
-        direction = 5  # Direction -> GPIO Pin
-        step = 6  # Step -> GPIO Pin
+        # GPIO_pins = (4, 27, 22)  # Microstep Resolution MS1-MS3 -> GPIO Pin
+        GPIO_pins = (-1, -1, -1)  # Microstep Resolution MS1-MS3 -> GPIO Pin
+        direction = 20  # Direction -> GPIO Pin
+        step = 21  # Step -> GPIO Pin
         self.mainmotor = RpiMotorLib.A4988Nema(direction, step, GPIO_pins, "A4988")
 
     def receiveNewPosition(self, pos0, pos1, timeBetween):
