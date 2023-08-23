@@ -237,6 +237,7 @@ class MotorControlHandler:
             self.updated = False
             self.realtimeHandler.logDate(
                 f'type: {"Motor"}, longitude: {0}, latitude: {0}, altitude: {0}, disposition: {(currentPosition[0, 0], currentPosition[1, 0])}, velocity: {(0, 0)}')
+            mainmotor.motor_go(True, "Full", 600, 0.0005, False, 0.0000)
             print("motor revolution")
         self.tick += 1
 
@@ -281,9 +282,9 @@ def runFlask():
 
 if __name__ == "__main__":
     # define GPIO pins
-    GPIO_pins = (14, 15, 18)  # Microstep Resolution MS1-MS3 -> GPIO Pin
-    direction = 20  # Direction -> GPIO Pin
-    step = 21  # Step -> GPIO Pin
+    GPIO_pins = (4, 27, 22)  # Microstep Resolution MS1-MS3 -> GPIO Pin
+    direction = 5  # Direction -> GPIO Pin
+    step = 6  # Step -> GPIO Pin
 
     mainmotor = RpiMotorLib.A4988Nema(direction, step, GPIO_pins, "A4988")
     pi = pigpio.pi()
