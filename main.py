@@ -9,7 +9,7 @@ from time import sleep
 from flask import Flask, render_template, request, jsonify
 import os
 import threading
-
+import subprocess
 class GPSHandler:
     def __init__(self, realtimeH, motorH):
         self.running = False
@@ -274,17 +274,43 @@ def get_position():
 
 
 # Define motor control route and function
-@app.route("/motor_control", methods=["POST"])
+@app.route("/control", methods=["POST"])
 def motor_control():
-    global motorRunning
-    motorRunning = not motorRunning
-    return "Motor Running = " + str(motorRunning)
+    if request.form["submit_button"] == "toggleMotor":
+        global motorRunning
+        motorRunning = not motorRunning
+        return "Motor Running = " + str(motorRunning)
+    elif request.form["submit_button"] == "shutDown":
+        global running
+        running = False
+        print("Stopping main loop...")
+        sleep(0.1)
+        # Execute shutdown command using sudo
+        try:
+            subprocess.run(["sudo", "shutdown", "-h", "now"], check=True)
+        except subprocess.CalledProcessError as e:
+            return (f"Error shutting down: {e}")
+        else:
+            return "Shut Down Successfully"
+    else:
+        return "Invalid request"
+
+def turnOff():
+    global running
+    running = False
+    print("Stopping main loop...")
+
+    # Execute shutdown command using sudo
+    try:
+        subprocess.run(["sudo", "shutdown", "-h", "now"], check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error shutting down: {e}")
 
 realtimeHandler = None
 gpsHandler = None
 motorHandler = None
 motorRunning = False
-
+running = True
 def runFlask():
     app.run(host='0.0.0.0', port=5000, debug=False, threaded=True)
 
@@ -299,7 +325,7 @@ if __name__ == "__main__":
     flaskThread = threading.Thread(target=runFlask)
     flaskThread.start()
 
-    while True:
+    while running:
         if gpsHandler.isInitialised is True:
             gpsHandler.receiveGPSData_LR()
         realtimeHandler.updatePostion()
