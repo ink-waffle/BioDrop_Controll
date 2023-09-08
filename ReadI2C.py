@@ -24,4 +24,6 @@ while True:
     bus.write_byte(address, A0)
     value = bus.read_byte(address)
     print("Z: " + str(value))
-    time.sleep(0.1)
+
+    print('-------------------')
+    time.sleep(0.5)
