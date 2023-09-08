@@ -11,7 +11,7 @@ bus = smbus.SMBus(1)
 
 while True:
 
-    bus.write_byte(address, A2)
+    bus.write_byte(address, A0)
     value = bus.read_byte(address)
     value = int((value/330 * 6000) - 3000)
     print("X: " + str(value))
@@ -23,7 +23,7 @@ while True:
     print("Y: " + str(value))
     time.sleep(0.01)
 
-    bus.write_byte(address, A0)
+    bus.write_byte(address, A2)
     value = bus.read_byte(address)
     value = int((value/330 * 6000) - 3000)
     print("Z: " + str(value))
