@@ -33,8 +33,9 @@ import board
 import busio
 import adafruit_adxl34x
 
+address = 0x48
 i2c = busio.I2C(board.SCL, board.SDA)
-accelerometer = adafruit_adxl34x.ADXL345(i2c)
+accelerometer = adafruit_adxl34x.ADXL345(i2c, address=address)
 
 while True:
     print("%f %f %f"%accelerometer.acceleration)
