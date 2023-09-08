@@ -11,26 +11,17 @@ bus = smbus.SMBus(1)
 
 while True:
 
-    bus.write_byte(address, A0)
-
+    bus.write_byte(address, A2)
     value = bus.read_byte(address)
-
-    print(value)
-
-    time.sleep(0.1)
+    print("X: " + str(value))
+    time.sleep(0.01)
 
     bus.write_byte(address, A1)
-
     value = bus.read_byte(address)
+    print("Y: " + str(value))
+    time.sleep(0.01)
 
-    print(value)
-
-    time.sleep(0.1)
-
-    bus.write_byte(address, A2)
-
+    bus.write_byte(address, A0)
     value = bus.read_byte(address)
-
-    print(value)
-
-    time.sleep(0.1)
+    print("Z: " + str(value))
+    time.sleep(0.01)
