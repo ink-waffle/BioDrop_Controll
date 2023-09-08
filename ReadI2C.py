@@ -13,19 +13,19 @@ while True:
 
     bus.write_byte(address, A2)
     value = bus.read_byte(address)
-    value = round(((value / 256) * 6) - 3, 2)
+    value = int((value/330 * 6000) - 3000)
     print("X: " + str(value))
     time.sleep(0.01)
 
     bus.write_byte(address, A1)
     value = bus.read_byte(address)
-    value = round(((value / 256) * 6) - 3, 2)
+    value = int((value/330 * 6000) - 3000)
     print("Y: " + str(value))
     time.sleep(0.01)
 
     bus.write_byte(address, A0)
     value = bus.read_byte(address)
-    value = round(((value / 256) * 6) - 3, 2)
+    value = int((value/330 * 6000) - 3000)
     print("Z: " + str(value))
 
     print('-------------------')
