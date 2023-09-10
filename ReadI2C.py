@@ -15,19 +15,19 @@ while True:
     value = bus.read_byte(address)
     # value = int(((value/255 * 5) - 1.65) * 3000)
     x = int(((value / 255) * 6000) - 3000)
-    time.sleep(0.02)
+    time.sleep(0.033)
 
     bus.write_byte(address, A1)
     value = bus.read_byte(address)
     y = int(((value / 255) * 6000) - 3000)
-    time.sleep(0.02)
+    time.sleep(0.033)
 
     bus.write_byte(address, A2)
     value = bus.read_byte(address)
     z = int(((value / 255) * 6000) - 3000)
-    print("X Y Z : " + str(x) + " " + str(y) + " " + str(z) + " mg", end='\r')
+    print("X Y Z : " + str(x) + " " + str(y) + " " + str(z) + " mg     ", end='\r')
 
-    time.sleep(0.02)
+    time.sleep(0.033)
 
 # import time
 # import board
