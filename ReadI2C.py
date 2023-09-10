@@ -25,7 +25,7 @@ while True:
     bus.write_byte(address, A2)
     value = bus.read_byte(address)
     z = int(((value / 255) * 6000) - 3000)
-    print("X Y Z : " + str(value), end='\r')
+    print("X Y Z : " + str(x) + " " + str(y) + " " + str(z), end='\r')
 
     time.sleep(0.05)
 
