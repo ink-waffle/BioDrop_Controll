@@ -25,9 +25,9 @@ while True:
     bus.write_byte(address, A2)
     value = bus.read_byte(address)
     z = int(((value / 255) * 6000) - 3000)
-    print("X Y Z : " + str(x) + " " + str(y) + " " + str(z), end='\r')
+    print("X Y Z : " + str(x) + " " + str(y) + " " + str(z) + " mg", end='\r')
 
-    time.sleep(0.05)
+    time.sleep(0.02)
 
 # import time
 # import board
