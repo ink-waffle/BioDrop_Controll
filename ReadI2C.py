@@ -7,7 +7,7 @@ A0 = 0x40
 A1 = 0x41
 A2 = 0x42
 
-bus = smbus.SMBus(1)
+bus = smbus.SMBus(0)
 
 while True:
 
