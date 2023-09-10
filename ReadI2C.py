@@ -29,15 +29,15 @@ while True:
 
     value = pcf_in_0.value
     # value = int(((value/255 * 5) - 1.65) * 3000)
-    x = int(((((value / 65535) * pcf_in_0.reference_voltage) / 3) * 6000) - 3000)
+    x = int(((((value / 65535) * 5) / 3.3) * 6000) - 3000)
     time.sleep(0.05)
 
     value = pcf_in_1.value
-    y = int(((((value / 65535) * pcf_in_1.reference_voltage) / 3) * 6000) - 3000)
+    y = int(((((value / 65535) * 5) / 3.3) * 6000) - 3000)
     time.sleep(0.05)
 
     value = pcf_in_2.value
-    z = int(((((value / 65535) * pcf_in_2.reference_voltage) / 3) * 6000) - 3000)
+    z = int(((((value / 65535) * 5) / 3.3) * 6000) - 3000)
     print("X Y Z : " + str(x) + " " + str(y) + " " + str(z) + " mg     ", end='\r')
     time.sleep(0.1)
     # a_0 = pcf_in_0.value
