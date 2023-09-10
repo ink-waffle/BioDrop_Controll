@@ -1,6 +1,11 @@
 import smbus
 
 import time
+import board
+
+import adafruit_pcf8591.pcf8591 as PCF
+from adafruit_pcf8591.analog_in import AnalogIn
+from adafruit_pcf8591.analog_out import AnalogOut
 
 address = 0x48
 A0 = 0x40
@@ -10,6 +15,11 @@ A3 = 0x43
 
 bus = smbus.SMBus(1)
 
+i2c = board.I2C()
+pcf = PCF.PCF8591(i2c)
+
+pcf_in_0 = AnalogIn(pcf, PCF.A0)
+pcf_out = AnalogOut(pcf, PCF.OUT)
 while True:
 
     # bus.write_byte(address, A0)
@@ -27,30 +37,25 @@ while True:
     # value = bus.read_byte(address)
     # z = int(((value / 255) * 6000) - 3000)
     # print("X Y Z : " + str(x) + " " + str(y) + " " + str(z) + " mg     ", end='\r')
-    bus.write_byte(address, A0)
-    a_0 = bus.read_byte(address)
-    time.sleep(0.1)
-    bus.write_byte(address, A1)
-    a_1 = bus.read_byte(address)
-    time.sleep(0.1)
-    bus.write_byte(address, A2)
-    a_2 = bus.read_byte(address)
-    time.sleep(0.1)
-    bus.write_byte(address, A3)
-    a_3 = bus.read_byte(address)
-    print("A0 A1 A2 A3 : " + str(a_0) + " " + str(a_1) + " " + str(a_2) + " " + str(a_3) + "    ", end='\r')
-    time.sleep(0.1)
+    # bus.write_byte(address, A0)
+    # a_0 = bus.read_byte(address)
+    # time.sleep(0.1)
+    # bus.write_byte(address, A1)
+    # a_1 = bus.read_byte(address)
+    # time.sleep(0.1)
+    # bus.write_byte(address, A2)
+    # a_2 = bus.read_byte(address)
+    # time.sleep(0.1)
+    # bus.write_byte(address, A3)
+    # a_3 = bus.read_byte(address)
+    # print("A0 A1 A2 A3 : " + str(a_0) + " " + str(a_1) + " " + str(a_2) + " " + str(a_3) + "    ", end='\r')
+    # time.sleep(0.1)
+    while True:
+        print("Setting out to ", 65535)
+        pcf_out.value = 65535
+        raw_value = pcf_in_0.value
+        scaled_value = (raw_value / 65535) * pcf_in_0.reference_voltage
 
-
-# import time
-# import board
-# import busio
-# import adafruit_adxl34x
-#
-# address = 0x48
-# i2c = busio.I2C(board.SCL, board.SDA)
-# accelerometer = adafruit_adxl34x.ADXL345(i2c, address=address)
-#
-# while True:
-#     print("%f %f %f"%accelerometer.acceleration)
-#     time.sleep(1)
+        print("Pin 0: %0.2fV" % (scaled_value))
+        print("")
+        time.sleep(1)
