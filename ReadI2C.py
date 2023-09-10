@@ -21,6 +21,9 @@ i2c = board.I2C()
 pcf = PCF.PCF8591(i2c)
 
 pcf_in_0 = AnalogIn(pcf, PCF.A0)
+pcf_in_1 = AnalogIn(pcf, PCF.A1)
+pcf_in_2 = AnalogIn(pcf, PCF.A2)
+pcf_in_3 = AnalogIn(pcf, PCF.A3)
 pcf_out = AnalogOut(pcf, PCF.OUT)
 while True:
 
