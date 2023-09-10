@@ -1,3 +1,5 @@
+import random
+
 import smbus
 
 import time
@@ -51,8 +53,9 @@ while True:
     # print("A0 A1 A2 A3 : " + str(a_0) + " " + str(a_1) + " " + str(a_2) + " " + str(a_3) + "    ", end='\r')
     # time.sleep(0.1)
     while True:
-        print("Setting out to ", 65535)
-        pcf_out.value = 65535
+        a = random.randint(0, 65525)
+        print("Setting out to ", a)
+        pcf_out.value = a
         raw_value = pcf_in_0.value
         scaled_value = (raw_value / 65535) * pcf_in_0.reference_voltage
 
