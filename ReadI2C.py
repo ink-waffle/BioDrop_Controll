@@ -38,7 +38,7 @@ while True:
     time.sleep(0.1)
     bus.write_byte(address, A3)
     a_3 = bus.read_byte(address)
-    print("A0 A1 A2 A3 : " + str(a0) + " " + str(a1) + " " + str(a2) + " " + str(a3) + "    ", end='\r')
+    print("A0 A1 A2 A3 : " + str(a_0) + " " + str(a_1) + " " + str(a_2) + " " + str(a_3) + "    ", end='\r')
     time.sleep(0.1)
 
 
