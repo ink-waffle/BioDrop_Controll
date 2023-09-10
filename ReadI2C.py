@@ -27,34 +27,31 @@ pcf_in_3 = AnalogIn(pcf, PCF.A3)
 pcf_out = AnalogOut(pcf, PCF.OUT)
 while True:
 
-    # bus.write_byte(address, A0)
-    # value = bus.read_byte(address)
-    # # value = int(((value/255 * 5) - 1.65) * 3000)
-    # x = int(((value / 255) * 6000) - 3000)
-    # time.sleep(0.033)
+    value = pcf_in_0.value
+    # value = int(((value/255 * 5) - 1.65) * 3000)
+    x = int(((((raw_value / 65535) * pcf_in_0.reference_voltage) / 3) * 6000) - 3000)
+    time.sleep(0.05)
+
+    value = pcf_in_1.value
+    y = int(((((raw_value / 65535) * pcf_in_1.reference_voltage) / 3) * 6000) - 3000)
+    time.sleep(0.05)
+
+    value = pcf_in_2.value
+    z = int(((((raw_value / 65535) * pcf_in_2.reference_voltage) / 3) * 6000) - 3000)
+    print("X Y Z : " + str(x) + " " + str(y) + " " + str(z) + " mg     ", end='\r')
+    time.sleep(0.1)
+    # a_0 = pcf_in_0.value
+    # time.sleep(0.1)
     #
-    # bus.write_byte(address, A1)
-    # value = bus.read_byte(address)
-    # y = int(((value / 255) * 6000) - 3000)
-    # time.sleep(0.033)
+    # a_1 = pcf_in_1.value
+    # time.sleep(0.1)
     #
-    # bus.write_byte(address, A2)
-    # value = bus.read_byte(address)
-    # z = int(((value / 255) * 6000) - 3000)
-    # print("X Y Z : " + str(x) + " " + str(y) + " " + str(z) + " mg     ", end='\r')
-
-    a_0 = pcf_in_0.value
-    time.sleep(0.1)
-
-    a_1 = pcf_in_1.value
-    time.sleep(0.1)
-
-    a_2 = pcf_in_2.value
-    time.sleep(0.1)
-
-    a_3 = pcf_in_3.value
-    print("A0 A1 A2 A3 : " + str(a_0) + " " + str(a_1) + " " + str(a_2) + " " + str(a_3) + "    ", end='\r')
-    time.sleep(0.1)
+    # a_2 = pcf_in_2.value
+    # time.sleep(0.1)
+    #
+    # a_3 = pcf_in_3.value
+    # print("A0 A1 A2 A3 : " + str(a_0) + " " + str(a_1) + " " + str(a_2) + " " + str(a_3) + "    ", end='\r')
+    # time.sleep(0.1)
     # while True:
     #     a = random.randint(0, 65525)
     #     print("Setting out to ", a)
