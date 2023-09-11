@@ -36,7 +36,7 @@ while True:
     z = int(((((value / 65535) * 5) / 3.3) * 6000) - 3000)
     time.sleep(0.05)
 
-    value = pcf_in_1.value
+    value = pcf_in_3.value
     y = int(((((value / 65535) * 5) / 3.3) * 6000) - 3000)
     print("X Y Z : " + str(x) + " " + str(y) + " " + str(z) + " mg     ", end='\r')
     time.sleep(0.1)
