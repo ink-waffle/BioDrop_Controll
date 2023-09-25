@@ -134,7 +134,7 @@ class GPSHandler:
 
         len_a = np.linalg.norm(a)
         len_b = np.linalg.norm(b)
-        cos = (a[0, 0] * b[0, 0] + a[1, 0] * b[1, 0]) / (len_a * len_b)
+        cos = (a[0, 0] * b[0, 0] + a[1, 0] * b[1, 0]) / (len_a * len_b) if len_b > 0 else 1
         speedDiff = len_a / len_b
         additive = 0
         if cos <= 0.6:
