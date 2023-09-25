@@ -10,6 +10,7 @@ from flask import Flask, render_template, request, jsonify
 import os
 import threading
 import subprocess
+import serial
 class GPSHandler:
     def __init__(self, realtimeH, motorH):
         self.running = False
@@ -23,9 +24,10 @@ class GPSHandler:
         self.prelastState: np.array = None
         self.rng: deque = None
         # define GPIO pins
-        self.pi = pigpio.pi()
-        self.pi.set_mode(23, pigpio.INPUT)
-        self.pi.bb_serial_read_open(23, 9600, 8)
+        # self.pi = pigpio.pi()
+        # self.pi.set_mode(23, pigpio.INPUT)
+        # self.pi.bb_serial_read_open(23, 9600, 8)
+        self.ser = serial.Serial('/dev/serial0', baudrate=9600, timeout=1)
 
     def tryInitialising(self):
         if self.isInitialised is True:
@@ -67,11 +69,21 @@ class GPSHandler:
         a = self.initialX
         b = self.initialY
         c = -1000000
-        (count, data) = self.pi.bb_serial_read(23)
-        if not count:
-            return
-        buffer = data.decode('utf-8', errors='ignore')
-        sentences = buffer.split('\r\n')
+        # (count, data) = self.pi.bb_serial_read(23)
+        # if not count:
+        #     return
+        # buffer = data.decode('utf-8', errors='ignore')
+        # sentences = buffer.split('\r\n')
+        sentences = list()
+        line = ''
+        if self.ser.in_waiting > 0:
+            line = self.ser.readline().decode('utf-8')
+            sentences.append(line)
+        while line.endswith(b'\n'):
+            line = ''
+            if self.ser.in_waiting > 0:
+                line = ser.readline().decode('utf-8')
+                sentences.append(line)
         for sentence in sentences:
             if not sentence.startswith('$GPGGA'):
                 continue
