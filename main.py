@@ -166,7 +166,7 @@ class GPSHandler:
         pos = pos_prediction
 
         speed = (moveDirection * np.linalg.norm(
-            pos - self.lastState[:2])) / (self.tick - self.rng[-1])
+            pos - self.lastState[:2])) / (self.tick - self.rng[-2])
         speed *= accelerationCoefficient
 
         self.prelastState = self.lastState
