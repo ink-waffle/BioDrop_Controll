@@ -109,7 +109,7 @@ class GPSHandler:
     def receiveGPSData_LR(self):
         accelerationCoefficient = 1
         bufferSize = 5
-        if self.tick % 5 != 0:
+        if self.tick % 4 != 0:
             self.tick += 1
             return
 
@@ -213,7 +213,7 @@ class RealtimePositionHandler:
         self.state = newState
 
     def updatePostion(self):
-        if self.tick_fromLastUPD % 5 != 0:
+        if self.tick_fromLastUPD % 4 != 0:
             self.tick_fromLastUPD += 1
             return
         position = np.array([[self.state[0, 0]],
@@ -246,7 +246,7 @@ class MotorControlHandler:
             self.lastPosTick = 0
 
     def motorControlRoutine(self):
-        if self.tick % 5 != 0:
+        if self.tick % 4 != 0:
             self.tick += 1
             return
         currentPosition = realtimeHandler.getCurrentPosition()
@@ -344,8 +344,8 @@ if __name__ == "__main__":
         if motorRunning:
             motorHandler.motorControlRoutine()
         if gpsHandler.isInitialised is False and currentTick % 5 == 0:
-            if currentTick % 250 == 0:
+            if currentTick % 100 == 0:
                 print("initialising...")
             gpsHandler.tryInitialising()
         currentTick += 1
-        sleep(0.01)
+        sleep(0.025)
