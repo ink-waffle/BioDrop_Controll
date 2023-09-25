@@ -79,7 +79,7 @@ class GPSHandler:
         if self.ser.in_waiting > 0:
             line = self.ser.readline().decode('utf-8')
             sentences.append(line)
-        while line.endswith(b'\n'):
+        while line.endswith('\n'):
             line = ''
             if self.ser.in_waiting > 0:
                 line = ser.readline().decode('utf-8')
