@@ -71,7 +71,7 @@ class GPSHandler:
         c = -1000000
         (count, data) = self.pi.bb_serial_read(23)
         if not count:
-            return
+            return (0, 0)
         buffer = data.decode('utf-8', errors='ignore')
         sentences = buffer.split('\r\n')
         # sentences = list()
