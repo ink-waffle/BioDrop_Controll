@@ -117,7 +117,7 @@ class GPSHandler:
             self.tick += 1
             return
         dif = np.sqrt(np.square(candidate[0] - self.lastState[0, 0]) + np.square(
-                candidate[0] - self.lastState[0, 0]))
+                candidate[1] - self.lastState[1, 0]))
         if dif > 0.03 * (self.tick - self.rng[-1]) or dif < 0.01:
             self.tick += 1
             return
@@ -134,7 +134,7 @@ class GPSHandler:
 
         len_a = np.linalg.norm(a)
         len_b = np.linalg.norm(b)
-        cos = (a[0, 0] * b[0, 0] + a[1, 0] * b[1, 0]) / (len_a * len_b) if len_b > 0 else 1
+        cos = (a[0, 0] * b[0, 0] + a[1, 0] * b[1, 0]) / (len_a * len_b) if len_b * len_a != 0 else 1
         speedDiff = len_a / len_b
         additive = 0
         if cos <= 0.6:
