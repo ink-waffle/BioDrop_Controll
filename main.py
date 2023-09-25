@@ -116,8 +116,9 @@ class GPSHandler:
         if np.isclose(candidate[0], 0) and np.isclose(candidate[1], 0):
             self.tick += 1
             return
-        if np.sqrt(np.square(candidate[0] - self.lastState[0, 0]) + np.square(
-                candidate[0] - self.lastState[0, 0])) > 0.03 * (self.tick - self.rng[-1]):
+        dif = np.sqrt(np.square(candidate[0] - self.lastState[0, 0]) + np.square(
+                candidate[0] - self.lastState[0, 0]))
+        if dif > 0.03 * (self.tick - self.rng[-1]) or dif < 0.01:
             self.tick += 1
             return
 
