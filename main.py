@@ -32,10 +32,9 @@ class GPSHandler:
     def tryInitialising(self):
         if self.isInitialised is True:
             return
-        self.getGPSPosition()
+        candidate = self.getGPSPosition()
         if self.initialX == -1000000 or self.initialY == -1000000:
             return
-        candidate = gpsHandler.getGPSPosition()
         state = np.array([[candidate[0]], [candidate[1]], [candidate[0]], [candidate[1]]])
         if np.isclose(candidate[0], 0) and np.isclose(candidate[1], 0):
             return
@@ -343,9 +342,7 @@ if __name__ == "__main__":
         realtimeHandler.updatePostion()
         if motorRunning:
             motorHandler.motorControlRoutine()
-        if gpsHandler.isInitialised is False and currentTick % 5 == 0:
-            if currentTick % 100 == 0:
-                print("initialising...")
+        if gpsHandler.isInitialised is False and currentTick % 100 == 0:
             gpsHandler.tryInitialising()
         currentTick += 1
         sleep(0.025)
