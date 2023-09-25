@@ -77,12 +77,12 @@ class GPSHandler:
         sentences = list()
         line = ''
         if self.ser.in_waiting > 0:
-            line = self.ser.readline().decode('utf-8')
+            line = self.ser.readline().decode('utf-8', errors='ignore')
             sentences.append(line)
         while line.endswith('\n'):
             line = ''
             if self.ser.in_waiting > 0:
-                line = self.ser.readline().decode('utf-8')
+                line = self.ser.readline().decode('utf-8', errors='ignore')
                 sentences.append(line)
         for sentence in sentences:
             if not sentence.startswith('$GPGGA'):
