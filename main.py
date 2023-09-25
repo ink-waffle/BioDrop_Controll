@@ -177,7 +177,7 @@ class GPSHandler:
         ])
         self.realtimeHandler.newPositionReceive(self.lastState)
         self.MotorControlHandler.receiveNewPosition(self.prelastState[:2], self.lastState[:2],
-                                                    self.tick - self.rng[-1])
+                                                    self.tick - self.rng[-2])
         self.realtimeHandler.logDate(
             f'type: {"Processed"}, longitude: {0}, latitude: {0}, altitude {0}, disposition: {(pos[0, 0], pos[1, 0])}, velocity: {(speed[0, 0], speed[1, 0])}')
         self.tick += 1
