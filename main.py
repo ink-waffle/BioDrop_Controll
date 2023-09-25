@@ -27,7 +27,7 @@ class GPSHandler:
         # self.pi = pigpio.pi()
         # self.pi.set_mode(23, pigpio.INPUT)
         # self.pi.bb_serial_read_open(23, 9600, 8)
-        self.ser = serial.Serial('/dev/serial0', baudrate=9600, timeout=1)
+        self.ser = serial.Serial('/dev/ttyAMA0', baudrate=9600, timeout=1)
 
     def tryInitialising(self):
         if self.isInitialised is True:
