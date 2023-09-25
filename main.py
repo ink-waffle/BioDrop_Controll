@@ -40,7 +40,7 @@ class GPSHandler:
             return
         else:
             self.isInitialised = True
-            self.stateHistory[1] = state
+            self.stateHistory[25] = state
             self.stateHistory[0] = np.array([[0], [0], [0], [0]])
             self.lastState: np.array = state
             self.prelastState: np.array = np.array([[0], [0], [0], [0]])
