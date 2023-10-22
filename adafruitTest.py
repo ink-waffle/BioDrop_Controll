@@ -1,5 +1,7 @@
 import serial
 import adafruit_gps
+from time import sleep
+
 
 # Create a serial connection
 uart = serial.Serial("/dev/serial0", baudrate=9600)
