@@ -259,7 +259,6 @@ class MotorControlHandler:
             self.realtimeHandler.logDate(
                 f'type: {"Motor"}, longitude: {0}, latitude: {0}, altitude: {0}, disposition: {(currentPosition[0, 0], currentPosition[1, 0])}, velocity: {(0, 0)}')
             self.mainmotor.motor_go(True, "Full", 600, 0.0005, False, 0.0000)
-            print("motor revolution")
         self.tick += 1
 
 
@@ -304,6 +303,25 @@ def motor_control():
             return (f"Error shutting down: {e}")
         else:
             return "Shut Down Successfully"
+    else:
+        return "Invalid request"
+
+# Define motor control route and function
+@app.route("/eport", methods=["POST"])
+def motor_control():
+    if request.form["submit_button"] == "zip":
+        # Create an in-memory byte stream (this will hold our zip file)
+        memory_file = io.BytesIO()
+
+        with zipfile.ZipFile(memory_file, 'w') as zf:
+            # Here we're zipping all files in the 'files' directory
+            # Modify as needed to select which files you want to include
+            for root, dirs, files in os.walk('logs'):
+                for file in files:
+                    zf.write(os.path.join(root, file), file)
+
+        memory_file.seek(0)  # Move cursor to the beginning of the file for reading
+        return send_file(memory_file, attachment_filename='logs.zip', as_attachment=True)
     else:
         return "Invalid request"
 
