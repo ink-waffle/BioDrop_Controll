@@ -14,5 +14,7 @@ while True:
     # Check if there are new coordinates available
     if gps.has_fix:
         # Print the position
-        print('Latitude: {0:.6f}'.format(gps.latitude))
-        print('Longitude: {0:.6f}'.format(gps.longitude))
+        print('Latitude: {0:.6f}'.format(gps.latitude), 'Longitude: {0:.6f}'.format(gps.longitude))
+    else:
+        print("no gps fix")
+    sleep(0.1)
