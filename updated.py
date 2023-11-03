@@ -230,7 +230,7 @@ class MotorControlHandler:
         self.mainmotor = RpiMotorLib.A4988Nema(direction, step, GPIO_pins, "A4988")
         self.motorRunning = False
         self.test = test
-        self.firstDropDone = Falsee
+        self.firstDropDone = False
     def toggleMotor(self):
         if self.motorRunning is False:
             self.time = 0
