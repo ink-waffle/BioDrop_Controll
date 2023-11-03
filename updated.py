@@ -227,7 +227,7 @@ class MotorControlHandler:
         GPIO_pins = (-1, -1, -1)  # Microstep Resolution MS1-MS3 -> GPIO Pin
         direction = 20  # Direction -> GPIO Pin
         step = 21  # Step -> GPIO Pin
-        # self.mainmotor = RpiMotorLib.A4988Nema(direction, step, GPIO_pins, "A4988")
+        self.mainmotor = RpiMotorLib.A4988Nema(direction, step, GPIO_pins, "A4988")
         self.motorRunning = False
         self.test = test
     def toggleMotor(self):
@@ -252,7 +252,7 @@ class MotorControlHandler:
                 else:
                     self.realtimeHandler.logDate(type='Motor',
                                                  disposition=self.gpsHandler.testData.getPosition(noise=False))
-                # self.mainmotor.motor_go(True, "Full", 600, 0.0005, False, 0.0000)
+                self.mainmotor.motor_go(True, "Full", 600, 0.0005, False, 0.0000)
                 print("motor revolution")
             sleep(0.1)
             self.time += 0.1
