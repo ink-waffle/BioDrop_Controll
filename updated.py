@@ -262,8 +262,8 @@ class MotorControlHandler:
             self.time += 0.1
 
 
-# log = logging.getLogger('werkzeug')
-# log.setLevel(logging.WARNING)
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.WARNING)
 app = Flask(__name__)
 
 
