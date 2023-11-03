@@ -11,6 +11,8 @@ import os
 import threading
 import subprocess
 import serial
+
+
 class GPSHandler:
     def __init__(self, realtimeH, motorH):
         self.running = False
@@ -117,7 +119,7 @@ class GPSHandler:
             self.tick += 1
             return
         dif = np.sqrt(np.square(candidate[0] - self.lastState[0, 0]) + np.square(
-                candidate[1] - self.lastState[1, 0]))
+            candidate[1] - self.lastState[1, 0]))
         if dif > 0.03 * (self.tick - self.rng[-1]) or dif < 0.01:
             self.tick += 1
             return
@@ -306,6 +308,7 @@ def motor_control():
     else:
         return "Invalid request"
 
+
 # Define motor control route and function
 @app.route("/eport", methods=["POST"])
 def motor_control():
@@ -325,6 +328,7 @@ def motor_control():
     else:
         return "Invalid request"
 
+
 def turnOff():
     global running
     running = False
@@ -336,11 +340,14 @@ def turnOff():
     except subprocess.CalledProcessError as e:
         print(f"Error shutting down: {e}")
 
+
 realtimeHandler = None
 gpsHandler = None
 motorHandler = None
 motorRunning = False
 running = True
+
+
 def runFlask():
     app.run(host='0.0.0.0', port=5000, debug=False, threaded=True)
 

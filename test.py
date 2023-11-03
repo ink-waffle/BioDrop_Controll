@@ -10,7 +10,6 @@ import subprocess
 import serial
 import io
 import zipfile
-
 # Initialize Flask app
 app = Flask(__name__)
 
