@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import datetime
 import logging
 from RpiMotorLib import RpiMotorLib
