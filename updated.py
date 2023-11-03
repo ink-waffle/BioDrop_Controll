@@ -243,6 +243,8 @@ class MotorControlHandler:
         while self.motorRunning:
             currentPosition = realtimeHandler.getCurrentPosition()
             distance = np.linalg.norm(currentPosition - self.lastPos)
+            if distance <= 0:
+                continue
             if np.allclose(self.lastPos, 0) or (distance >= 10 and self.time >= self.minDropInterval) or (
                     self.time >= self.constantDropInterval):
                 self.time = 0
