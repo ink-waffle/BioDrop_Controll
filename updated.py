@@ -230,10 +230,12 @@ class MotorControlHandler:
         self.mainmotor = RpiMotorLib.A4988Nema(direction, step, GPIO_pins, "A4988")
         self.motorRunning = False
         self.test = test
+        self.firstDropDone = Falsee
     def toggleMotor(self):
         if self.motorRunning is False:
             self.time = 0
-            self.lastPos = np.array([[0.0], [0.0]])
+            self.lastPos = realtimeHandler.getCurrentPosition()
+            self.firstDropDone = False
             self.motorRunning = True
             threading.Thread(target=self.motorControlRoutine).start()
         else:
@@ -243,9 +245,10 @@ class MotorControlHandler:
         while self.motorRunning:
             currentPosition = realtimeHandler.getCurrentPosition()
             distance = np.linalg.norm(currentPosition - self.lastPos)
-            if np.allclose(self.lastPos, 0) or (distance >= 10 and self.time >= self.minDropInterval) or (
+            if self.firstDropDone is False or (distance >= 10 and self.time >= self.minDropInterval) or (
                     self.time >= self.constantDropInterval):
                 self.time = 0
+                self.firstDropDone = True
                 if distance > 0:
                     self.lastPos += ((currentPosition - self.lastPos) / distance) * 10
                 if not self.test:
