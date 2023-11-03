@@ -115,12 +115,12 @@ class GPSHandler:
             if self.realtimeHandler:
                 self.realtimeHandler.logDate(type="Raw", disposition=pos)
             return np.array([[pos[0]], [pos[1]]])
-        gps.update()
-        if gps.has_fix:
+        self.gps.update()
+        if self.gps.has_fix:
             if self.initialX == -1000000 or self.initialY == -1000000:
-                self.initialX, self.initialY = gps.latitude, gps.longitude
+                self.initialX, self.initialY = self.gps.latitude, self.gps.longitude
                 return np.array([[0], [0]])
-            a, b = gps.latitude, gps.longitude
+            a, b = self.gps.latitude, self.gps.longitude
             disposition = (a - self.initialX) * 111139, (b - self.initialY) * 111139
             if self.realtimeHandler:
                 self.realtimeHandler.logDate(type="Raw", longitude=a, latitude=b, disposition=disposition)
