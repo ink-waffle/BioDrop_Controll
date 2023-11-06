@@ -7,6 +7,7 @@ import os
 import threading
 import subprocess
 import serial
+import RpiMotorLib
 
 GPIO_pins = (-1, -1, -1)  # Microstep Resolution MS1-MS3 -> GPIO Pin
 direction = 20  # Direction -> GPIO Pin
