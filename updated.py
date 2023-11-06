@@ -183,7 +183,7 @@ class RealtimePositionHandler:
                                                   'longitude': longitude, 'latitude': latitude,
                                                   'dispositionX': disposition[0], 'dispositionY': disposition[1],
                                                   'velocityX': velocity[0], 'velocityY': velocity[1]}
-        self.logFrame = self.logFrame.append(new_row, ignore_index=True)
+        self.logFrame = self.logFrame._append(new_row, ignore_index=True)
 
 
     def saveLogs(self):
