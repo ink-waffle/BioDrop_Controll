@@ -1,4 +1,4 @@
-#!/home/raspi/.local/lib/python3.9
+#!/usr/bin/python3
 
 import datetime
 import logging
