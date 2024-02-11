@@ -21,6 +21,9 @@ filtered_acceleration = np.array([[0],
 speed = np.array([[0],
                   [0],
                   [0]], dtype=np.float64)
+disposition = np.array([[0],
+                        [0],
+                        [0]], dtype=np.float64)
 alpha = 0.95
 
 for i in range(500):
@@ -51,12 +54,16 @@ while True:
     gravity = alpha * gravity + (1 - alpha) * acc
 
     new_acc = acc - gravity
-    speed += ((new_acc + filtered_acceleration)/2) * 0.01
+    new_speed = speed + ((new_acc + filtered_acceleration)/2) * 0.01
+    disposition = ((new_speed + speed)/2) * 0.01
+
+    speed = new_speed
     filtered_acceleration = new_acc
 
     print_acc = np.round(filtered_acceleration, 2)
     print_speed = np.round(speed, 2)
+    print_pos = np.round(disposition, 2)
     # sys.stdout.write(f'\rdX: {print_acc[0, 0]}, dY: {print_acc[1, 0]}, dZ: {print_acc[2, 0]} m/s^2 X: {print_speed[0,0]}, Y: {print_speed[1,0]}, Z: {print_speed[2,0]} m/s')
-    sys.stdout.write(f'\rX: {print_speed[0,0]}, Y: {print_speed[1,0]}, Z: {print_speed[2,0]} m/s')
+    sys.stdout.write(f'\rdX: {print_speed[0,0]}, dY: {print_speed[1,0]}, dZ: {print_speed[2,0]} m/s X: {print_pos[0,0]}, Y: {print_pos[1,0]}, Z: {print_pos[2,0]} m')
     sys.stdout.flush()
     sleep(0.01)
