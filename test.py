@@ -54,7 +54,7 @@ while True:
     gravity = alpha * gravity + (1 - alpha) * acc
 
     new_acc = acc - gravity
-    new_speed = speed + ((new_acc + filtered_acceleration)/2) * 0.01
+    new_speed = speed + (((new_acc + filtered_acceleration)/2) * 0.01)
     disposition += ((new_speed + speed)/2) * 0.01
 
     speed = new_speed
