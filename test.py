@@ -33,5 +33,5 @@ while True:
     gravity = alpha * gravity + (1 - alpha) * acc
 
     linear_acceleration = acc - gravity
-    print('X: ' + linear_acceleration[0, 0] + ' Y: ' + linear_acceleration[1, 0] + ' Z: ' + linear_acceleration[2, 0])
+    print('X: ' + str(linear_acceleration[0, 0]) + ' Y: ' + str(linear_acceleration[1, 0]) + ' Z: ' + str(linear_acceleration[2, 0]))
     sleep(0.05)
