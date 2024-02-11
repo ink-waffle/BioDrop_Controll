@@ -5,6 +5,7 @@ from time import sleep
 import board
 import adafruit_mpu6050
 import numpy
+import sys
 # Create a serial connection
 uart = serial.Serial("/dev/serial0", baudrate=9600)
 i2c = board.I2C()
