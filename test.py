@@ -44,5 +44,5 @@ while True:
     filtered_acceleration = new_acc
     # print('X: ' + str(linear_acceleration[0, 0]) + ' Y: ' + str(linear_acceleration[1, 0]) + ' Z: ' + str(linear_acceleration[2, 0]))
     # print("Acceleration: X:%.2f, Y: %.2f, Z: %.2f m/s^2" % (mpu.acceleration))
-    print((f'\rdX:%.2f, dY: %.2f, dZ: %.2f m/s^2' % filtered_acceleration) + (f'\rX:%.2f, Y: %.2f, Z: %.2f m/s' % speed),  end='')
+    print((f'\rdX:%.2f, dY: %.2f, dZ: %.2f m/s^2' % filtered_acceleration.flatten()) + (f'\rX:%.2f, Y: %.2f, Z: %.2f m/s' % speed.flatten()),  end='')
     sleep(0.01)
