@@ -40,9 +40,9 @@ while True:
     gravity = alpha * gravity + (1 - alpha) * acc
 
     new_acc = acc - gravity
-    speed += new_acc + filtered_acceleration
+    speed += (new_acc + filtered_acceleration) * 0.01
     filtered_acceleration = new_acc
     # print('X: ' + str(linear_acceleration[0, 0]) + ' Y: ' + str(linear_acceleration[1, 0]) + ' Z: ' + str(linear_acceleration[2, 0]))
     # print("Acceleration: X:%.2f, Y: %.2f, Z: %.2f m/s^2" % (mpu.acceleration))
-    print(f'\rdX: {filtered_acceleration[0, 0]}, dY: {filtered_acceleration[1, 0]}, dZ: {filtered_acceleration[2, 0]} m/s^2' + f'\rX: {speed[0,0]}, Y: {speed[1,0]}, Z: {speed[2,0]} m/s', end='')
+    print(f'\rdX: {filtered_acceleration[0, 0]}, dY: {filtered_acceleration[1, 0]}, dZ: {filtered_acceleration[2, 0]} m/s^2 X: {speed[0,0]}, Y: {speed[1,0]}, Z: {speed[2,0]} m/s', end='')
     sleep(0.01)
