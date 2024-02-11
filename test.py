@@ -19,7 +19,7 @@ filtered_acceleration = np.array([[0],
                                   [0]])
 speed = np.array([[0],
                   [0],
-                  [0]])
+                  [0]], dtype=np.float64)
 alpha = 0.95
 
 while True:
@@ -41,7 +41,7 @@ while True:
 
     new_acc = acc - gravity
     speed += new_acc + filtered_acceleration
-    filtered_acceleration = acc - gravity
+    filtered_acceleration = new_acc
     # print('X: ' + str(linear_acceleration[0, 0]) + ' Y: ' + str(linear_acceleration[1, 0]) + ' Z: ' + str(linear_acceleration[2, 0]))
     # print("Acceleration: X:%.2f, Y: %.2f, Z: %.2f m/s^2" % (mpu.acceleration))
     print((f'\rdX:%.2f, dY: %.2f, dZ: %.2f m/s^2' % filtered_acceleration) + (f'\rX:%.2f, Y: %.2f, Z: %.2f m/s' % speed),  end='')
