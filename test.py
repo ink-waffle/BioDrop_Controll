@@ -55,7 +55,7 @@ while True:
 
     new_acc = acc - gravity
     new_speed = speed + ((new_acc + filtered_acceleration)/2) * 0.01
-    disposition = ((new_speed + speed)/2) * 0.01
+    disposition += ((new_speed + speed)/2) * 0.01
 
     speed = new_speed
     filtered_acceleration = new_acc
