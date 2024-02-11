@@ -45,6 +45,8 @@ while True:
     filtered_acceleration = new_acc
     # print('X: ' + str(linear_acceleration[0, 0]) + ' Y: ' + str(linear_acceleration[1, 0]) + ' Z: ' + str(linear_acceleration[2, 0]))
     # print("Acceleration: X:%.2f, Y: %.2f, Z: %.2f m/s^2" % (mpu.acceleration))
-    sys.stdout.write(f'\rdX: {filtered_acceleration[0, 0]}, dY: {filtered_acceleration[1, 0]}, dZ: {filtered_acceleration[2, 0]} m/s^2 X: {speed[0,0]}, Y: {speed[1,0]}, Z: {speed[2,0]} m/s', end='')
+    print_acc = np.round(filtered_acceleration, 2)
+    print_speed = np.round(speed, 2)
+    sys.stdout.write(f'\rdX: {print_acc[0, 0]}, dY: {print_acc[1, 0]}, dZ: {print_acc[2, 0]} m/s^2 X: {print_speed[0,0]}, Y: {print_speed[1,0]}, Z: {print_speed[2,0]} m/s')
     sys.stdout.flush()
     sleep(0.01)
