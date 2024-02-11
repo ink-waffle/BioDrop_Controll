@@ -1,17 +1,37 @@
-import datetime
-import logging
 import numpy as np
-from collections import deque
-from time import sleep
-import os
-import threading
-import subprocess
 import serial
-from RpiMotorLib import RpiMotorLib
+import adafruit_gps
+from time import sleep
+import board
+import adafruit_mpu6050
+import numpy
+# Create a serial connection
+uart = serial.Serial("/dev/serial0", baudrate=9600)
+i2c = board.I2C()
+mpu = adafruit_mpu6050.MPU6050(i2c)
+# Create a GPS module instance
+gps = adafruit_gps.GPS(uart, debug=False)
+gravity = np.array([[0],
+                    [0],
+                    [0]])
+while True:
+    # Update GPS data
+    gps.update()
 
-GPIO_pins = (-1, -1, -1)  # Microstep Resolution MS1-MS3 -> GPIO Pin
-direction = 20  # Direction -> GPIO Pin
-step = 21  # Step -> GPIO Pin
-mainmotor = RpiMotorLib.A4988Nema(direction, step, GPIO_pins, "A4988")
-mainmotor.motor_go(True, "Full", 600, 0.0005, False, 0.0000)
-print("motor revolution")
+    # Check if there are new coordinates available
+    if gps.has_fix:
+        # Print the position
+        print('Latitude: {0:.6f}'.format(gps.latitude), 'Longitude: {0:.6f}'.format(gps.longitude))
+    else:
+        print("no gps fix")
+    # print("Acceleration: X:%.2f, Y: %.2f, Z: %.2f m/s^2" % (mpu.acceleration))
+    alpha = 0.8
+    acc = mpu.acceleration
+    acc = np.array([[acc[0]],
+                    [acc[1]],
+                    [acc[2]]])
+    gravity = alpha * gravity + (1 - alpha) * acc
+
+    linear_acceleration = acc - gravity
+    print('X: ' + linear_acceleration[0, 0] + ' Y: ' + linear_acceleration[1, 0] + ' Z: ' + linear_acceleration[2, 0])
+    sleep(0.05)
