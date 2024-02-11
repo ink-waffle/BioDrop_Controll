@@ -32,8 +32,8 @@ while True:
         # Print the position
         print('Latitude: {0:.6f}'.format(gps.latitude), 'Longitude: {0:.6f}'.format(gps.longitude))
     else:
-        print("no gps fix")
-
+        # print("no gps fix")
+        pass
     acc = mpu.acceleration
     acc = np.array([[acc[0]],
                     [acc[1]],
@@ -43,8 +43,7 @@ while True:
     new_acc = acc - gravity
     speed += (new_acc + filtered_acceleration) * 0.01
     filtered_acceleration = new_acc
-    # print('X: ' + str(linear_acceleration[0, 0]) + ' Y: ' + str(linear_acceleration[1, 0]) + ' Z: ' + str(linear_acceleration[2, 0]))
-    # print("Acceleration: X:%.2f, Y: %.2f, Z: %.2f m/s^2" % (mpu.acceleration))
+
     print_acc = np.round(filtered_acceleration, 2)
     print_speed = np.round(speed, 2)
     sys.stdout.write(f'\rdX: {print_acc[0, 0]}, dY: {print_acc[1, 0]}, dZ: {print_acc[2, 0]} m/s^2 X: {print_speed[0,0]}, Y: {print_speed[1,0]}, Z: {print_speed[2,0]} m/s')
