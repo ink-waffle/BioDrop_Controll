@@ -24,7 +24,7 @@ speed = np.array([[0],
 disposition = np.array([[0],
                         [0],
                         [0]], dtype=np.float64)
-alpha = 0.8
+alpha = 0.1
 
 for i in range(500):
     acc = mpu.acceleration
