@@ -11,4 +11,4 @@ mainmotor = RpiMotorLib.A4988Nema(direction, step, GPIO_pins, "A4988")
 while True:
     mainmotor.motor_go(True, "Full", 200, 0.0005, False, 0.0000)
     print("motor revolution")
-    sleep(5)
+    sleep(1)
