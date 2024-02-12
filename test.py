@@ -24,7 +24,7 @@ speed = np.array([[0],
 disposition = np.array([[0],
                         [0],
                         [0]], dtype=np.float64)
-alpha = 0.5
+alpha = 0.75
 
 for i in range(500):
     acc = mpu.acceleration
@@ -50,7 +50,7 @@ while True:
                     [acc[1]],
                     [acc[2]]])
     gravity = alpha * gravity + (1 - alpha) * acc
-    gravity = (gravity/np.linalg.norm(gravity)) * 9.81
+    # gravity = (gravity/np.linalg.norm(gravity)) * 9.81
     filtered_acceleration = acc - gravity
     speed += filtered_acceleration * 0.01
     disposition += speed * 0.01
