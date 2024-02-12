@@ -166,17 +166,6 @@ class RealtimePositionHandler:
         if self.running:
             return
         self.running = True
-        # logs_folder = os.path.abspath(os.path.dirname(__file__)) + '/logs'
-        # os.makedirs(logs_folder, exist_ok=True)
-        # self.logger = logging.getLogger('my_logger')
-        # self.logger.setLevel(logging.DEBUG)
-        # log_file = os.path.join(logs_folder, datetime.datetime.now().strftime('%m-%d_%H-%M-%S') + '.json')
-        # fileHandler = logging.FileHandler(log_file)
-        # fileHandler.setLevel(logging.DEBUG)
-        # fileHandler.setFormatter(logging.Formatter('%(message)s'))
-        # self.logger.addHandler(fileHandler)
-
-        # threading.Thread(target=self.updatePostion).start()
 
     def logDate(self, type=None, longitude=0, latitude=0, disposition=(0, 0), velocity=(0, 0)):
         new_row = {'type': type,
@@ -207,16 +196,6 @@ class RealtimePositionHandler:
         self.lastUPD_time = time.time()
         self.state = newState
 
-    # def updatePostion(self):
-    #     while True:
-    #         position = np.array([[self.state[0, 0]],
-    #                              [self.state[1, 0]]])
-    #         velocity = np.array([[self.state[2, 0]],
-    #                              [self.state[3, 0]]])
-    #
-    #         self.currentPosition = position + (velocity * self.time_fromLastUPD)
-    #         self.time_fromLastUPD += 0.05
-    #         sleep(0.05)
 
 
 class MotorControlHandler:
@@ -246,7 +225,7 @@ class MotorControlHandler:
 
     def motorControlRoutine(self):
         while self.motorRunning:
-            currentPosition = realtimeHandler.getCurrentPosition()
+            currentPosition = self.realtimeHandler.getCurrentPosition()
             distance = np.linalg.norm(currentPosition - self.lastPos)
             if self.firstDropDone is False or (distance >= 10 and self.time >= self.minDropInterval) or (
                     self.time >= self.constantDropInterval):
@@ -330,7 +309,6 @@ def export():
         return "Invalid request"
 
 
-
 realtimeHandler = None
 gpsHandler = None
 motorHandler = None
@@ -345,7 +323,6 @@ if __name__ == "__main__":
     realtimeHandler.initialize()
     gpsHandler = GPSHandler(realtimeHandler, test=False)
     motorHandler = MotorControlHandler(realtimeHandler, gpsHandler, test=False)
-
 
     flaskThread = threading.Thread(target=runFlask)
     flaskThread.start()
