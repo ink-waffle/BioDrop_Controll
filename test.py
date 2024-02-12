@@ -24,7 +24,7 @@ speed = np.array([[0],
 disposition = np.array([[0],
                         [0],
                         [0]], dtype=np.float64)
-alpha = 0.1
+alpha = 0.95
 
 for i in range(500):
     acc = mpu.acceleration
@@ -33,9 +33,7 @@ for i in range(500):
                     [acc[2]]])
     gravity = alpha * gravity + (1 - alpha) * acc
 
-    new_acc = acc - gravity
-    # speed += (new_acc + filtered_acceleration) * 0.01
-    filtered_acceleration = new_acc
+    filtered_acceleration = acc - gravity
 while True:
     # Update GPS data
     gps.update()
@@ -53,12 +51,9 @@ while True:
                     [acc[2]]])
     gravity = alpha * gravity + (1 - alpha) * acc
 
-    new_acc = acc - gravity
-    new_speed = speed + (((new_acc + filtered_acceleration)/2) * 0.01)
-    disposition += ((new_speed + speed)/2) * 0.01
-
-    speed = new_speed
-    filtered_acceleration = new_acc
+    filtered_acceleration = acc - gravity
+    speed += filtered_acceleration * 0.01
+    disposition += speed * 0.01
 
     print_acc = np.round(filtered_acceleration, 2)
     print_speed = np.round(speed, 2)
