@@ -24,7 +24,7 @@ speed = np.array([[0],
 disposition = np.array([[0],
                         [0],
                         [0]], dtype=np.float64)
-alpha = 0.95
+alpha = 0.5
 
 for i in range(500):
     acc = mpu.acceleration
@@ -58,8 +58,8 @@ while True:
     print_acc = np.round(filtered_acceleration, decimals=2)
     print_speed = np.round(speed, decimals=2)
     print_pos = np.round(disposition, decimals=2)
-    print_gyro = np.round(np.array(mpu.gyro), decimals=2)
+    # print_gyro = np.round(np.array(mpu.gyro), decimals=2)
     # sys.stdout.write(f'\rdX: {print_acc[0, 0]}, dY: {print_acc[1, 0]}, dZ: {print_acc[2, 0]} m/s^2 X: {print_speed[0,0]}, Y: {print_speed[1,0]}, Z: {print_speed[2,0]} m/s')
-    sys.stdout.write(f'\rdX: {print_speed[0,0]}, dY: {print_speed[1,0]}, dZ: {print_speed[2,0]} m/s X: {print_pos[0,0]}, Y: {print_pos[1,0]}, Z: {print_pos[2,0]} m oX: {print_gyro[0]}, oY: {print_gyro[1]}, oZ: {print_gyro[2]} rad/s')
+    sys.stdout.write(f'\rdX: {print_speed[0,0]}, dY: {print_speed[1,0]}, dZ: {print_speed[2,0]} m/s X: {print_pos[0,0]}, Y: {print_pos[1,0]}, Z: {print_pos[2,0]} m')
     sys.stdout.flush()
     sleep(0.01)
