@@ -200,7 +200,7 @@ class RealtimePositionHandler:
 
 class MotorControlHandler:
     def __init__(self, realtimeH, gpsH, test=False):
-        self.constantDropInterval = 10
+        self.constantDropInterval = 3
         self.minDropInterval = 1
         self.lastPos = np.array([[0], [0]])
         self.time = 0
@@ -289,7 +289,7 @@ def process_form():
     input_interval = request.form['input_interval']
 
     motorHandler.constantDropInterval = input_interval
-
+    print("interval set to: " + str(input_interval))
     # Respond, for example, by redirecting back to the form with a message
     # or by rendering a template with a result
     # Here, we simply redirect back to the main form page as an example
