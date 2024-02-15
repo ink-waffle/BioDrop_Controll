@@ -238,7 +238,7 @@ class MotorControlHandler:
                 else:
                     self.realtimeHandler.logDate(type='Motor',
                                                  disposition=self.gpsHandler.testData.getPosition(noise=False))
-                self.mainmotor.motor_go(True, "Full", 400, 0.001, False, 0.0000)
+                self.mainmotor.motor_go(True, "Full", 600, 0.001, False, 0.0000)
                 print("motor revolution")
             sleep(0.1)
             self.time += 0.1
