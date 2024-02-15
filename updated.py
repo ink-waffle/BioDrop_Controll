@@ -288,7 +288,7 @@ def process_form():
     # Access the submitted data
     input_interval = request.form['input_interval']
 
-    motorHandler.constantDropInterval = input_interval
+    motorHandler.constantDropInterval = int(input_interval)
     print("interval set to: " + str(input_interval))
     # Respond, for example, by redirecting back to the form with a message
     # or by rendering a template with a result
