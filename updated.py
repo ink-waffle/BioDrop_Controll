@@ -238,7 +238,7 @@ class MotorControlHandler:
                 else:
                     self.realtimeHandler.logDate(type='Motor',
                                                  disposition=self.gpsHandler.testData.getPosition(noise=False))
-                self.mainmotor.motor_go(True, "Full", 600, 0.0005, False, 0.0000)
+                self.mainmotor.motor_go(True, "Full", 400, 0.001, False, 0.0000)
                 print("motor revolution")
             sleep(0.1)
             self.time += 0.1
@@ -281,6 +281,19 @@ def motor_control():
             return "Shut Down Successfully"
     else:
         return "Invalid request"
+
+
+@app.route('/process', methods=['POST'])
+def process_form():
+    # Access the submitted data
+    input_interval = request.form['input_interval']
+
+    motorHandler.constantDropInterval = input_interval
+
+    # Respond, for example, by redirecting back to the form with a message
+    # or by rendering a template with a result
+    # Here, we simply redirect back to the main form page as an example
+    return redirect(url_for('index'))
 
 
 @app.route("/export", methods=["POST"])
