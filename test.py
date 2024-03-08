@@ -21,7 +21,7 @@ drotation = np.array([[0],
                      [0]])
 while True:
     gyro_readings = np.array(mpu.gyro).reshape((3, 1))
-    drotation = 0.1 * gyro_readings + 0.9 * drotation
+    drotation = 0.05 * gyro_readings + 0.95 * drotation
     drotation = gyro_readings - drotation
 
     rotation = rotation * 0.997
