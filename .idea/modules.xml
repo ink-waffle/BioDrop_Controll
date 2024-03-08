@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/GPSTrackerProject.iml" filepath="$PROJECT_DIR$/.idea/GPSTrackerProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/BioDrop_Controll.iml" filepath="$PROJECT_DIR$/.idea/BioDrop_Controll.iml" />
     </modules>
   </component>
 </project>

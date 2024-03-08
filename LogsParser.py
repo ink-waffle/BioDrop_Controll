@@ -10,7 +10,6 @@ def filter_json_file(allowedTypes, writingColumns, overwrite=False):
         lines = json_file.readlines()
 
     filtered_lines = [line.strip() for line in lines if line.split(', ')[0].removeprefix('type: ') in allowedTypes]
-
     if overwrite is True:
         with open(input_file_path, 'w') as json_file:
             json_file.write('\n'.join(filtered_lines))
