@@ -28,9 +28,9 @@ while True:
     drotation = drotation - noise
 
     # rotation = rotation * 0.999
-    rotation += drotation * 0.01
+    rotation += drotation * 0.001
     print_rotation = np.round(rotation, 2)
     print_drotation = np.round(drotation, 2)
     sys.stdout.write(f'\rX: {print_rotation[0,0]}, Y: {print_rotation[1,0]}, Z: {print_rotation[2,0]} rad dX: {print_drotation[0,0]}, dY: {print_drotation[1,0]}, dZ: {print_drotation[2,0]} rad/s')
     sys.stdout.flush()
-    sleep(0.01)
+    sleep(0.001)
