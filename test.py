@@ -16,7 +16,19 @@ rotation = np.array([[0],
                      [0],
                      [0]])
 
+drotation = np.array([[0],
+                     [0],
+                     [0]])
 while True:
-    drotation = np.array(mpu.gyro).reshape((3, 1))
-    print(drotation)
+    gyro_readings = np.array(mpu.gyro).reshape((3, 1))
+    drotation = 0.1 * gyro_readings + 0.9 * drotation
+    drotation = gyro_readings - drotation
+
+    rotation = rotation * 0.997
+    rotation += drotation * 0.01
+    print_rotation = np.round(rotation, 2)
+    print_drotation = np.round(drotation, 2)
+    print(rotation)
+    sys.stdout.write(f'\rX: {print_rotation[0,0]}, Y: {print_rotation[1,0]}, Z: {print_rotation[2,0]} rad dX: {print_drotation[0,0]}, dY: {print_drotation[1,0]}, dZ: {print_drotation[2,0]} rad/s')
+    sys.stdout.flush()
     sleep(0.01)
