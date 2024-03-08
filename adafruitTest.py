@@ -22,7 +22,8 @@ while True:
         # Print the position
         print('Latitude: {0:.6f}'.format(gps.latitude), 'Longitude: {0:.6f}'.format(gps.longitude))
     else:
-        print("no gps fix")
+        # print("no gps fix")
+        pass
     # print("Acceleration: X:%.2f, Y: %.2f, Z: %.2f m/s^2" % (mpu.acceleration))
     # print("Gyro X:%.2f, Y: %.2f, Z: %.2f rad/s" % (mpu.gyro))
     print_acceleration = np.round(np.array(mpu.acceleration), 2)
