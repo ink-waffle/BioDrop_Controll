@@ -21,7 +21,7 @@ noise = np.array([[0.0],
                   [0.0]])
 while True:
     drotation = np.array(mpu.gyro).reshape((3, 1))
-    noise = 0.05 * drotation + 0.95 * noise
+    noise = 0.02 * drotation + 0.98 * noise
     drotation = drotation - noise
 
     # rotation = rotation * 0.999
