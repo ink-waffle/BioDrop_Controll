@@ -17,6 +17,6 @@ rotation = np.array([[0],
                      [0]])
 
 while True:
-    drotation = np.array(mpu.gyro).transpose()
+    drotation = np.array(mpu.gyro).reshape((3, 1))
     print(drotation)
     sleep(0.01)
