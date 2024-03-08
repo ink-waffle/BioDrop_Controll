@@ -24,7 +24,7 @@ while True:
     noise = 0.05 * drotation + 0.95 * noise
     drotation = drotation - noise
 
-    rotation = rotation * 0.999
+    # rotation = rotation * 0.999
     rotation += drotation * 0.01
     print_rotation = np.round(rotation, 2)
     print_drotation = np.round(drotation, 2)
