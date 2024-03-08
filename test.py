@@ -19,10 +19,13 @@ rotation = np.array([[0.0],
 noise = np.array([[0.0],
                   [0.0],
                   [0.0]])
+for i in range(200):
+    noise = 0.05 * np.array(mpu.gyro).reshape((3, 1)) + 0.95 * noise
+    sleep(0.01)
 while True:
     drotation = np.array(mpu.gyro).reshape((3, 1))
-    noise = 0.01 * drotation + 0.99 * noise
-    # drotation = drotation - noise
+    # noise = 0.01 * drotation + 0.99 * noise
+    drotation = drotation - noise
 
     # rotation = rotation * 0.999
     rotation += drotation * 0.01
