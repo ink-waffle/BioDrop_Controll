@@ -53,8 +53,8 @@ while True:
     di = np.float64(di) - noise_i
     dj = np.float64(dj) - noise_j
 
-    di = np.float64(0) if di <= 0.01 else di
-    dj = np.float64(0) if dj <= 0.01 else dj
+    di = np.float64(0) if np.less_equal(np.abs(di), np.float64(0.01)) else di
+    dj = np.float64(0) if np.less_equal(np.abs(dj), np.float64(0.01)) else dj
 
     dT = np.float64(perf_counter() - lasttime)
     roll -= di * dT
