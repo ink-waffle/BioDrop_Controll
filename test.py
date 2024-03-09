@@ -50,7 +50,7 @@ while True:
     di, dj, _ = mpu.gyro
     # noise = 0.01 * drotation + 0.99 * noise
     noise_i = 0.001 * di + 0.999 * noise_i
-    noise_j = 0.001 * di + 0.999 * noise_j
+    noise_j = 0.001 * dj + 0.999 * noise_j
     di = di - noise_i
     dj = dj - noise_j
 
