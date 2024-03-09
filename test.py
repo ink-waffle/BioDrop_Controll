@@ -53,6 +53,9 @@ while True:
     di = np.float64(di) - noise_i
     dj = np.float64(dj) - noise_j
 
+    di = np.float64(0) if di <= 0.1 else di
+    dj = np.float64(0) if dj <= 0.1 else dj
+
     dT = np.float64(perf_counter() - lasttime)
     roll -= di * dT
     pitch += dj * dT
