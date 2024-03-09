@@ -76,6 +76,6 @@ while True:
                                             [np.cos(roll) * np.cos(pitch)]])
     print_gravity = np.round(gravity, 2)
     print_acceleration = np.round(np.array(mpu.acceleration), 2)
-    sys.stdout.write(f'\raX: {print_acceleration[0]}, aY: {print_acceleration[1]}, aZ: {print_acceleration[2]}; gX: {print_gravity[0,0]}, gY: {print_gravity[1,0]}, gZ: {print_gravity[2,0]}; roll: {np.round(roll, 2)}, pitch: {np.round(pitch, 2)}, droll: {np.round(-di, 2)}, dpitch: {np.round(dj, 2)}  ')
+    sys.stdout.write(f'\raX: {print_acceleration[0]}, aY: {print_acceleration[1]}, aZ: {print_acceleration[2]}; gX: {print_gravity[0,0]}, gY: {print_gravity[1,0]}, gZ: {print_gravity[2,0]}; roll: {np.round(roll, 2)}, pitch: {np.round(pitch, 2)}, yawn: {np.round(yawn, 2)}  ')
     sys.stdout.flush()
     sleep(0.0005)
