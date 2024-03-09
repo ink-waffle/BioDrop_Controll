@@ -54,11 +54,11 @@ while True:
     # noise = 0.01 * drotation + 0.99 * noise
     # noise_i = np.float64(0.0001) * np.float64(di) + np.float64(0.9999) * np.float64(noise_i)
     # noise_j = np.float64(0.0001) * np.float64(dj) + np.float64(0.9999) * np.float64(noise_j)
-    dRotation = np.array(mpu.gyro).reshape((3, 1)) - noise
+    dRotation = np.array(mpu.gyro, dtype=np.float64).reshape((3, 1)) - noise
     # di = np.float64(di) - noise_i
     # dj = np.float64(dj) - noise_j
 
-    dRotation = np.where(np.abs(dRotation) <= 0.01, 0, dRotation)
+    dRotation = np.where(np.less_equal(np.abs(dRotation), np.float64(0.01)), 0, dRotation)
     # di = np.float64(0) if np.less_equal(np.abs(di), np.float64(0.01)) else di
     # dj = np.float64(0) if np.less_equal(np.abs(dj), np.float64(0.01)) else dj
 
@@ -78,4 +78,4 @@ while True:
     print_acceleration = np.round(np.array(mpu.acceleration), 2)
     sys.stdout.write(f'\raX: {print_acceleration[0]}, aY: {print_acceleration[1]}, aZ: {print_acceleration[2]}; gX: {print_gravity[0,0]}, gY: {print_gravity[1,0]}, gZ: {print_gravity[2,0]}; roll: {np.round(roll, 2)}, pitch: {np.round(pitch, 2)}, yawn: {np.round(yawn, 2)}  ')
     sys.stdout.flush()
-    sleep(0.0005)
+    sleep(0.0001)
