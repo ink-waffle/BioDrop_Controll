@@ -13,17 +13,17 @@ i2c = board.I2C()
 mpu = adafruit_mpu6050.MPU6050(i2c)
 gps = adafruit_gps.GPS(uart, debug=False)
 
-noise_i = 0.0
-noise_j = 0.0
+noise_i = np.float64(0)
+noise_j = np.float64(0)
 gravity = np.array([[0.0],
                   [0.0],
                   [0.0]])
 
 for i in range(1000):
     gyro_read = mpu.gyro
-    noise_i += 0.001 * gyro_read[0]
-    noise_j += 0.001 * gyro_read[1]
-    gravity += 0.001 * np.array(mpu.acceleration).reshape((3, 1))
+    noise_i += np.float64(0.001) * gyro_read[0]
+    noise_j += np.float64(0.001) * gyro_read[1]
+    gravity += np.float64(0.001) * np.array(mpu.acceleration).reshape((3, 1))
     sleep(0.001)
 
 
@@ -35,8 +35,8 @@ gravity_normalized = gravity / gravity_magnitude
 # [[-sinj],        = [[G_x],
 #  [sini * cosj], =  [G_y],
 #  [cosi * cosj]]  =  [G_z]]
-pitch = np.arcsin(-gravity_normalized[0, 0])
-roll = np.arcsin(gravity_normalized[1, 0] / (np.cos(pitch)))
+pitch = np.float64(np.arcsin(-gravity_normalized[0, 0]))
+roll = np.float64(np.arcsin(gravity_normalized[1, 0] / (np.cos(pitch))))
 
 print(f'roll: {np.round(roll, 2)} pitch: {np.round(pitch, 2)}')
 print(f'gravity magnitude: {np.round(gravity_magnitude, 2)}')
@@ -48,13 +48,12 @@ lasttime = perf_counter()
 while True:
     di, dj, _ = mpu.gyro
     # noise = 0.01 * drotation + 0.99 * noise
-    noise_i = 0.001 * di + 0.999 * noise_i
-    noise_j = 0.001 * dj + 0.999 * noise_j
-    di = di - noise_i
-    dj = dj - noise_j
+    noise_i = np.float64(0.0001) * np.float64(di) + np.float64(0.9999) * np.float64(noise_i)
+    noise_j = np.float64(0.0001) * np.float64(dj) + np.float64(0.9999) * np.float64(noise_j)
+    di = np.float64(di) - noise_i
+    dj = np.float64(di) - noise_j
 
-
-    dT = perf_counter() - lasttime
+    dT = np.float64(perf_counter() - lasttime)
     roll -= di * dT
     pitch += dj * dT
     lasttime = perf_counter()
