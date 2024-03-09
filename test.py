@@ -19,12 +19,12 @@ gravity = np.array([[0.0],
                   [0.0],
                   [0.0]])
 
-for i in range(200):
+for i in range(1000):
     gyro_read = mpu.gyro
-    noise_i += 0.005 * gyro_read[0]
-    noise_j += 0.005 * gyro_read[1]
-    gravity += 0.005 * np.array(mpu.acceleration).reshape((3, 1))
-    sleep(0.005)
+    noise_i += 0.001 * gyro_read[0]
+    noise_j += 0.001 * gyro_read[1]
+    gravity += 0.001 * np.array(mpu.acceleration).reshape((3, 1))
+    sleep(0.001)
 
 
 # Infer Rotation
@@ -45,7 +45,6 @@ print(f'gX: {print_gravity[0,0]}, gY: {print_gravity[1,0]}, gZ: {print_gravity[2
 
 
 
-lasttime = perf_counter()
 while True:
     di, dj, _ = mpu.gyro
     # noise = 0.01 * drotation + 0.99 * noise
@@ -54,7 +53,7 @@ while True:
     di = di - noise_i
     dj = dj - noise_j
 
-    # rotation = rotation * 0.999
+    lasttime = perf_counter()
     dT = perf_counter() - lasttime
     roll -= di * dT
     pitch += dj * dT
