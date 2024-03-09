@@ -28,6 +28,7 @@ for i in range(200):
 
 
 # Infer Rotation
+print_gravity = np.round(gravity, 2)
 gravity_magnitude = np.linalg.norm(gravity)
 gravity_normalized = gravity / gravity_magnitude
 
@@ -36,8 +37,10 @@ gravity_normalized = gravity / gravity_magnitude
 #  [cosi * cosj]]  =  [G_z]]
 pitch = np.arcsin(-gravity_normalized[0, 0])
 roll = np.arcsin(-gravity_normalized[1, 0] / (np.cos(pitch)))
+
 print(f'roll: {np.round(roll, 2)} pitch: {np.round(pitch, 2)}')
 print(f'gravity magnitude: {np.round(gravity_magnitude, 2)}')
+print(f'gX: {print_gravity[0,0]}, gY: {print_gravity[1,0]}, gZ: {print_gravity[2,0]};')
 # Done Rotation Inference
 
 
@@ -46,6 +49,8 @@ lasttime = perf_counter()
 while True:
     di, dj, _ = mpu.gyro
     # noise = 0.01 * drotation + 0.99 * noise
+    noise_i = 0.001 * di + 0.999 * noise_i
+    noise_j = 0.001 * di + 0.999 * noise_j
     di = di - noise_i
     dj = dj - noise_j
 
