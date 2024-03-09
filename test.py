@@ -51,7 +51,7 @@ while True:
     noise_i = np.float64(0.0001) * np.float64(di) + np.float64(0.9999) * np.float64(noise_i)
     noise_j = np.float64(0.0001) * np.float64(dj) + np.float64(0.9999) * np.float64(noise_j)
     di = np.float64(di) - noise_i
-    dj = np.float64(di) - noise_j
+    dj = np.float64(dj) - noise_j
 
     dT = np.float64(perf_counter() - lasttime)
     roll -= di * dT
