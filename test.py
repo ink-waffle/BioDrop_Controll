@@ -33,10 +33,10 @@ gravity_magnitude = np.linalg.norm(gravity)
 gravity_normalized = gravity / gravity_magnitude
 
 # [[-sinj],        = [[G_x],
-#  [sini * cosj], =  [G_y],
+#  [-sini * cosj], =  [G_y],
 #  [cosi * cosj]]  =  [G_z]]
 pitch = np.float64(np.arcsin(-gravity_normalized[0, 0]))
-roll = np.float64(np.arcsin(gravity_normalized[1, 0] / (np.cos(pitch))))
+roll = np.float64(np.arcsin(-gravity_normalized[1, 0] / (np.cos(pitch))))
 
 print(f'roll: {np.round(roll, 2)} pitch: {np.round(pitch, 2)}')
 print(f'gravity magnitude: {np.round(gravity_magnitude, 2)}')
@@ -62,7 +62,7 @@ while True:
     lasttime = perf_counter()
 
     gravity = gravity_magnitude * np.array([[-np.sin(pitch)],
-                                            [np.sin(roll) * np.cos(pitch)],
+                                            [-np.sin(roll) * np.cos(pitch)],
                                             [np.cos(roll) * np.cos(pitch)]])
     print_gravity = np.round(gravity, 2)
     print_acceleration = np.round(np.array(mpu.acceleration), 2)
