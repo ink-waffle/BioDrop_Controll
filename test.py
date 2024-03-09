@@ -56,7 +56,7 @@ while True:
 
     # rotation = rotation * 0.999
     dT = perf_counter() - lasttime
-    roll += di * dT
+    roll -= di * dT
     pitch += dj * dT
     lasttime = perf_counter()
 
