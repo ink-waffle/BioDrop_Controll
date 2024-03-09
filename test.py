@@ -48,13 +48,13 @@ lasttime = perf_counter()
 while True:
     di, dj, _ = mpu.gyro
     # noise = 0.01 * drotation + 0.99 * noise
-    noise_i = np.float64(0.0001) * np.float64(di) + np.float64(0.9999) * np.float64(noise_i)
-    noise_j = np.float64(0.0001) * np.float64(dj) + np.float64(0.9999) * np.float64(noise_j)
+    # noise_i = np.float64(0.0001) * np.float64(di) + np.float64(0.9999) * np.float64(noise_i)
+    # noise_j = np.float64(0.0001) * np.float64(dj) + np.float64(0.9999) * np.float64(noise_j)
     di = np.float64(di) - noise_i
     dj = np.float64(dj) - noise_j
 
-    di = np.float64(0) if di <= 0.1 else di
-    dj = np.float64(0) if dj <= 0.1 else dj
+    di = np.float64(0) if di <= 0.01 else di
+    dj = np.float64(0) if dj <= 0.01 else dj
 
     dT = np.float64(perf_counter() - lasttime)
     roll -= di * dT
