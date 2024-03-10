@@ -59,7 +59,7 @@ while True:
     dRotation = np.where(np.less_equal(np.abs(dRotation), np.float64(0.01)), 0, dRotation)
     dRotation = np.array([[1, np.sin(roll) * np.tan(pitch), np.cos(roll) * np.tan(pitch)],
                           [0, np.cos(roll), -np.sin(roll)],
-                          [0, np.sin(roll)/np.cos(pitch), np.cos(roll)/np.cos(pitch)]]) * dRotation
+                          [0, np.sin(roll)/np.cos(pitch), np.cos(roll)/np.cos(pitch)]]) @ dRotation
 
     dT = np.float64(perf_counter() - lasttime)
     dRotation *= dT
