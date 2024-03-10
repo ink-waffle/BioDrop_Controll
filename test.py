@@ -56,7 +56,7 @@ while True:
     # noise_i = np.float64(0.0001) * np.float64(di) + np.float64(0.9999) * np.float64(noise_i)
     # noise_j = np.float64(0.0001) * np.float64(dj) + np.float64(0.9999) * np.float64(noise_j)
     dRotation = np.array(mpu.gyro, dtype=np.float64).reshape((3, 1)) - noise
-    # dRotation = np.where(np.less_equal(np.abs(dRotation), np.float64(0.01)), 0, dRotation)
+    dRotation = np.where(np.less_equal(np.abs(dRotation), np.float64(0.01)), 0, dRotation)
 
     dT = np.float64(perf_counter() - lasttime)
     dRotation *= dT
