@@ -72,9 +72,9 @@ while True:
     pitch = pitch + np.float64(2) if np.less_equal(pitch, np.float64(-2)) else pitch
     yawn = yawn + np.float64(2) if np.less_equal(yawn, np.float64(-2)) else yawn
 
-    roll += np.float64(0.000002) if initialRoll > roll else np.float64(-0.000002)
-    pitch += np.float64(0.000002) if initialPitch > pitch else np.float64(-0.000002)
-    yawn += np.float64(0.000002) if initialYawn > yawn else np.float64(-0.000002)
+    roll += np.float64(0.000003) if initialRoll > roll else np.float64(-0.000003)
+    pitch += np.float64(0.000003) if initialPitch > pitch else np.float64(-0.000003)
+    yawn += np.float64(0.000003) if initialYawn > yawn else np.float64(-0.000003)
 
     gravity = gravity_magnitude * np.array([[np.cos(yawn) * -np.sin(pitch)],
                                             [np.cos(yawn) * np.sin(roll) * np.cos(pitch) + np.sin(pitch) * np.sin(yawn)],
