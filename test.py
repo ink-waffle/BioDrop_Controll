@@ -43,7 +43,7 @@ initialPitch = pitch = np.float64(np.arcsin(-gravity_normalized[0, 0]))
 initialRoll = roll = np.float64(np.arcsin(gravity_normalized[1, 0] / (np.cos(pitch))))
 initialYawn = yawn = np.float64(0)
 
-print(f'roll: {np.round(roll, 2)} pitch: {np.round(pitch, 2)}')
+print(f'roll: {np.round(initialRoll, 2)} pitch: {np.round(initialPitch, 2)}')
 print(f'gravity magnitude: {np.round(gravity_magnitude, 2)}')
 print(f'gX: {print_gravity[0,0]}, gY: {print_gravity[1,0]}, gZ: {print_gravity[2,0]};')
 # Done Rotation Inference
@@ -65,9 +65,9 @@ while True:
     yawn += dRotation[2, 0]
     lasttime = perf_counter()
 
-    roll = roll - np.float64(2) if np.more_equal(roll, np.float64(2)) else roll
-    pitch = pitch - np.float64(2) if np.more_equal(pitch, np.float64(2)) else pitch
-    yawn = yawn - np.float64(2) if np.more_equal(yawn, np.float64(2)) else yawn
+    roll = roll - np.float64(2) if np.greater_equal(roll, np.float64(2)) else roll
+    pitch = pitch - np.float64(2) if np.greater_equal(pitch, np.float64(2)) else pitch
+    yawn = yawn - np.float64(2) if np.greater_equal(yawn, np.float64(2)) else yawn
     roll = roll + np.float64(2) if np.less_equal(roll, np.float64(-2)) else roll
     pitch = pitch + np.float64(2) if np.less_equal(pitch, np.float64(-2)) else pitch
     yawn = yawn + np.float64(2) if np.less_equal(yawn, np.float64(-2)) else yawn
