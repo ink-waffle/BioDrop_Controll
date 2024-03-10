@@ -39,9 +39,10 @@ gravity_normalized = gravity / gravity_magnitude
 # [[cosk * -sinj],        = [[G_x],
 #  [cosk * -sini * cosj + sinj * sink], =  [G_y],
 #  [cosi * cosj]]  =  [G_z]]
-pitch = np.float64(np.arcsin(-gravity_normalized[0, 0]))
-roll = np.float64(np.arcsin(gravity_normalized[1, 0] / (np.cos(pitch))))
-yawn = np.float64(0)
+initialPitch, pitch = np.float64(np.arcsin(-gravity_normalized[0, 0]))
+initialRoll, roll = np.float64(np.arcsin(gravity_normalized[1, 0] / (np.cos(pitch))))
+initialYawn, yawn = np.float64(0)
+
 print(f'roll: {np.round(roll, 2)} pitch: {np.round(pitch, 2)}')
 print(f'gravity magnitude: {np.round(gravity_magnitude, 2)}')
 print(f'gX: {print_gravity[0,0]}, gY: {print_gravity[1,0]}, gZ: {print_gravity[2,0]};')
@@ -55,21 +56,25 @@ while True:
     # noise_i = np.float64(0.0001) * np.float64(di) + np.float64(0.9999) * np.float64(noise_i)
     # noise_j = np.float64(0.0001) * np.float64(dj) + np.float64(0.9999) * np.float64(noise_j)
     dRotation = np.array(mpu.gyro, dtype=np.float64).reshape((3, 1)) - noise
-    # di = np.float64(di) - noise_i
-    # dj = np.float64(dj) - noise_j
-
     dRotation = np.where(np.less_equal(np.abs(dRotation), np.float64(0.01)), 0, dRotation)
-    # di = np.float64(0) if np.less_equal(np.abs(di), np.float64(0.01)) else di
-    # dj = np.float64(0) if np.less_equal(np.abs(dj), np.float64(0.01)) else dj
 
     dT = np.float64(perf_counter() - lasttime)
-    # roll += di * dT
-    # pitch += dj * dT
     dRotation *= dT
     roll += dRotation[0, 0]
     pitch += dRotation[1, 0]
     yawn += dRotation[2, 0]
     lasttime = perf_counter()
+
+    roll = roll - np.float64(2) if np.more_equal(roll, np.float64(2)) else roll
+    pitch = pitch - np.float64(2) if np.more_equal(pitch, np.float64(2)) else pitch
+    yawn = yawn - np.float64(2) if np.more_equal(yawn, np.float64(2)) else yawn
+    roll = roll + np.float64(2) if np.less_equal(roll, np.float64(-2)) else roll
+    pitch = pitch + np.float64(2) if np.less_equal(pitch, np.float64(-2)) else pitch
+    yawn = yawn + np.float64(2) if np.less_equal(yawn, np.float64(-2)) else yawn
+
+    roll += np.float64(0.000002) * (initialRoll - roll)
+    pitch += np.float64(0.000002) * (initialPitch - pitch)
+    yawn += np.float64(0.000002) * (initialYawn - yawn)
 
     gravity = gravity_magnitude * np.array([[np.cos(yawn) * -np.sin(pitch)],
                                             [np.cos(yawn) * np.sin(roll) * np.cos(pitch) + np.sin(pitch) * np.sin(yawn)],
