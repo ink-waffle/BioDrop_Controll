@@ -39,9 +39,9 @@ gravity_normalized = gravity / gravity_magnitude
 # [[cosk * -sinj],        = [[G_x],
 #  [cosk * -sini * cosj + sinj * sink], =  [G_y],
 #  [cosi * cosj]]  =  [G_z]]
-initialPitch, pitch = np.float64(np.arcsin(-gravity_normalized[0, 0]))
-initialRoll, roll = np.float64(np.arcsin(gravity_normalized[1, 0] / (np.cos(pitch))))
-initialYawn, yawn = np.float64(0)
+initialPitch = pitch = np.float64(np.arcsin(-gravity_normalized[0, 0]))
+initialRoll = roll = np.float64(np.arcsin(gravity_normalized[1, 0] / (np.cos(pitch))))
+initialYawn = yawn = np.float64(0)
 
 print(f'roll: {np.round(roll, 2)} pitch: {np.round(pitch, 2)}')
 print(f'gravity magnitude: {np.round(gravity_magnitude, 2)}')
