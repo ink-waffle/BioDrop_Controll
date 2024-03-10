@@ -68,12 +68,12 @@ while True:
     yawn += dRotation[2, 0]
     lasttime = perf_counter()
 
-    roll = roll - np.float64(6.283185307) if np.greater_equal(roll, np.float64(6.283185307)) else roll
-    pitch = pitch - np.float64(6.283185307) if np.greater_equal(pitch, np.float64(6.283185307)) else pitch
-    yawn = yawn - np.float64(6.283185307) if np.greater_equal(yawn, np.float64(6.283185307)) else yawn
-    roll = roll + np.float64(6.283185307) if np.less_equal(roll, np.float64(-6.283185307)) else roll
-    pitch = pitch + np.float64(6.283185307) if np.less_equal(pitch, np.float64(-6.283185307)) else pitch
-    yawn = yawn + np.float64(6.283185307) if np.less_equal(yawn, np.float64(-6.283185307)) else yawn
+    # roll = roll - np.float64(6.283185307) if np.greater_equal(roll, np.float64(6.283185307)) else roll
+    # pitch = pitch - np.float64(6.283185307) if np.greater_equal(pitch, np.float64(6.283185307)) else pitch
+    # yawn = yawn - np.float64(6.283185307) if np.greater_equal(yawn, np.float64(6.283185307)) else yawn
+    # roll = roll + np.float64(6.283185307) if np.less_equal(roll, np.float64(-6.283185307)) else roll
+    # pitch = pitch + np.float64(6.283185307) if np.less_equal(pitch, np.float64(-6.283185307)) else pitch
+    # yawn = yawn + np.float64(6.283185307) if np.less_equal(yawn, np.float64(-6.283185307)) else yawn
 
     roll += np.float64(0.000003) if initialRoll > roll else np.float64(-0.000003)
     pitch += np.float64(0.000003) if initialPitch > pitch else np.float64(-0.000003)
