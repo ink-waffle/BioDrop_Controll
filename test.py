@@ -82,8 +82,10 @@ while True:
     gravity = gravity_magnitude * np.array([[np.cos(yawn) * -np.sin(pitch)],
                                             [np.cos(yawn) * np.sin(roll) * np.cos(pitch) + np.sin(pitch) * np.sin(yawn)],
                                             [np.cos(roll) * np.cos(pitch)]])
-    print_gravity = np.round(gravity, 2)
-    print_acceleration = np.round(np.array(mpu.acceleration), 2)
-    sys.stdout.write(f'\raX: {print_acceleration[0]}, aY: {print_acceleration[1]}, aZ: {print_acceleration[2]}; gX: {print_gravity[0,0]}, gY: {print_gravity[1,0]}, gZ: {print_gravity[2,0]}; roll: {np.round(roll, 2)}, pitch: {np.round(pitch, 2)}, yawn: {np.round(yawn, 2)}  ')
+    acceleration = np.array(mpu.acceleration).reshape((3, 1)) - gravity
+    # print_gravity = np.round(gravity, 2)
+    # print_acceleration = np.round(np.array(mpu.acceleration), 2)
+    print_acceleration = np.round(acceleration, 2)
+    sys.stdout.write(f'\raX: {print_acceleration[0]}, aY: {print_acceleration[1]}, aZ: {print_acceleration[2]}; roll: {np.round(roll, 2)}, pitch: {np.round(pitch, 2)}, yawn: {np.round(yawn, 2)}; dT: {dT}  ')
     sys.stdout.flush()
     sleep(0.0001)
