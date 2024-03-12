@@ -47,9 +47,9 @@ z_vector = np.array([np.sin(yawn) * -np.sin(roll) * np.cos(pitch) + np.cos(yawn)
 y_vector = np.array([np.cos(roll) * np.sin(yawn),
                      np.cos(roll) * np.cos(yawn),
                      np.sin(roll)])
-x_vector = np.array([y_vector[2] * z_vector[3] - y_vector[3] * z_vector[2],
-                     y_vector[3] * z_vector[1] - y_vector[1] * z_vector[3],
-                     y_vector[1] * z_vector[2] - y_vector[2] * z_vector[1]])
+x_vector = np.array([y_vector[1] * z_vector[2] - y_vector[2] * z_vector[1],
+                     y_vector[2] * z_vector[0] - y_vector[0] * z_vector[2],
+                     y_vector[0] * z_vector[1] - y_vector[1] * z_vector[0]])
 
 gravity = gravity_magnitude * z_vector
 print_y = np.round(y_vector, 2)
@@ -88,9 +88,9 @@ while True:
     y_vector = np.array([np.cos(roll) * np.sin(yawn),
                          np.cos(roll) * np.cos(yawn),
                          np.sin(roll)])
-    x_vector = np.array([y_vector[2] * z_vector[3] - y_vector[3] * z_vector[2],
-                         y_vector[3] * z_vector[1] - y_vector[1] * z_vector[3],
-                         y_vector[1] * z_vector[2] - y_vector[2] * z_vector[1]])
+    x_vector = np.array([y_vector[1] * z_vector[2] - y_vector[2] * z_vector[1],
+                         y_vector[2] * z_vector[0] - y_vector[0] * z_vector[2],
+                         y_vector[0] * z_vector[1] - y_vector[1] * z_vector[0]])
 
     gravity = gravity_magnitude * z_vector
     acceleration = np.array(mpu.acceleration) - gravity
