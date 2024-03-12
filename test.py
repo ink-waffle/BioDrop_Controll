@@ -82,8 +82,8 @@ while True:
     pitch += np.float32(0.000003) if initialPitch > pitch else np.float32(-0.000003)
     yawn += np.float32(0.000003) if initialYawn > yawn else np.float32(-0.000003)
 
-    z_vector = np.array([np.sin(yawn) * np.sin(roll) * np.cos(pitch) - np.cos(yawn) * np.sin(pitch),
-                         np.cos(yawn) * np.sin(roll) * np.cos(pitch) + np.sin(pitch) * np.sin(yawn),
+    z_vector = np.array([-np.sin(yawn) * -np.sin(roll) * np.cos(pitch) - np.cos(yawn) * np.sin(pitch),
+                         np.cos(yawn) * -np.sin(roll) * np.cos(pitch) + np.sin(pitch) * -np.sin(yawn),
                          np.cos(roll) * np.cos(pitch)])
     y_vector = np.array([np.cos(roll) * np.sin(yawn),
                          np.cos(roll) * np.cos(yawn),
