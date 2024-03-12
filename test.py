@@ -106,9 +106,11 @@ while True:
 
     # print_gravity = np.round(gravity, 2)
     # print_acceleration = np.round(np.array(mpu.acceleration), 2)
-    # print_y = np.int16(y_vector * 100)
+    print_x = np.int16(x_vector * 100)
+    print_y = np.int16(y_vector * 100)
     print_acceleration = np.int16(acceleration * 100)
     print_speed = np.int16(speed * 100)
-    sys.stdout.write(f'\rvX: {print_speed[0]}, vY: {print_speed[1]}, vZ: {print_speed[2]}; roll: {np.round(roll, 2)}, pitch: {np.round(pitch, 2)}, yawn: {np.round(yawn, 2)}; dist: {np.int16(traversedDistance * 100)}  ')
+    # sys.stdout.write(f'\rvX: {print_speed[0]}, vY: {print_speed[1]}, vZ: {print_speed[2]}; roll: {np.round(roll, 2)}, pitch: {np.round(pitch, 2)}, yawn: {np.round(yawn, 2)}; dist: {np.int16(traversedDistance * 100)}  ')
+    sys.stdout.write(f'\rxX: {print_x[0]}, xY: {print_x[1]}, xZ: {print_x[2]}; yX: {print_y[0]}, yY: {print_y[1]}, yZ: {print_y[2]}; roll: {np.round(roll, 2)}, pitch: {np.round(pitch, 2)}, yawn: {np.round(yawn, 2)}; dist: {np.int16(traversedDistance * 100)}  ')
     sys.stdout.flush()
     sleep(0.01)
