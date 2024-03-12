@@ -82,8 +82,8 @@ while True:
     pitch += np.float32(0.000003) if initialPitch > pitch else np.float32(-0.000003)
     yawn += np.float32(0.000003) if initialYawn > yawn else np.float32(-0.000003)
 
-    z_vector = np.array([np.sin(yawn) * -np.sin(roll) * np.cos(pitch) + np.cos(yawn) * -np.sin(pitch),
-                         np.cos(yawn) * np.sin(roll) * np.cos(pitch) + np.sin(pitch) * np.sin(yawn),
+    z_vector = np.array([np.sin(yawn) * -np.sin(roll) * np.cos(pitch) - np.cos(yawn) * np.sin(pitch),
+                         np.cos(yawn) * -np.sin(roll) * np.cos(pitch) + np.sin(pitch) * np.sin(yawn),
                          np.cos(roll) * np.cos(pitch)])
     y_vector = np.array([np.cos(roll) * np.sin(yawn),
                          np.cos(roll) * np.cos(yawn),
@@ -112,6 +112,7 @@ while True:
     print_acceleration = np.int16(acceleration * 100)
     print_speed = np.int16(speed * 100)
     # sys.stdout.write(f'\rvX: {print_speed[0]}, vY: {print_speed[1]}, vZ: {print_speed[2]}; roll: {np.round(roll, 2)}, pitch: {np.round(pitch, 2)}, yawn: {np.round(yawn, 2)}; dist: {np.int16(traversedDistance * 100)}  ')
-    sys.stdout.write(f'\rxX: {print_x[0]}, xY: {print_x[1]}, xZ: {print_x[2]}; yX: {print_y[0]}, yY: {print_y[1]}, yZ: {print_y[2]}; zX: {print_z[0]}, zY: {print_z[1]}, zZ: {print_z[2]}; ')
+    # sys.stdout.write(f'\rxX: {print_x[0]}, xY: {print_x[1]}, xZ: {print_x[2]}; yX: {print_y[0]}, yY: {print_y[1]}, yZ: {print_y[2]}; zX: {print_z[0]}, zY: {print_z[1]}, zZ: {print_z[2]}; ')
+    sys.stdout.write(f'\raX: {print_acceleration[0]}, aY: {print_acceleration[1]}, aZ: {print_acceleration[2]};')
     sys.stdout.flush()
     sleep(0.01)
