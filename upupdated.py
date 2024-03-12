@@ -32,6 +32,8 @@ class AccelerometerHandler:
         self.gravity_magnitude = np.float32(0)
         self.initialPitch, self.pitch, self.initialRoll, self.roll, self.initialYawn, self.yawn = np.float32(
             0), np.float32(0), np.float32(0), np.float32(0), np.float32(0), np.float32(0)
+        self.speed = np.array([[0], [0], [0]], dtype=np.float32)
+        self.position = np.array([[0], [0], [0]], dtype=np.float32)
 
     def calibrate(self):
         self.noise = np.array([[0],
@@ -87,12 +89,16 @@ class AccelerometerHandler:
             acceleration = np.array(self.mpu.acceleration).reshape((3, 1)) - gravity
             sleep(0.01)
 
+    def sendPosition(self):
+        return self.position
+
 
 class RealtimePositionHandler:
-    def __init__(self):
-        self.currentPosition = np.array([[0], [0]])
+    def __init__(self, accelerometerH):
+        self.accelerometer = accelerometerH
         self.lastUPD_time = time.time()
-        self.state = np.array([[0], [0], [0], [0]])
+        self.position = np.array([[0], [0]])
+        self.speed = np.array([[0], [0]])
         self.running = False
         self.logFrame = pd.DataFrame(
             columns=['type', 'longitude', 'latitude', 'dispositionX', 'dispositionY', 'velocityX', 'velocityY'])
@@ -116,17 +122,15 @@ class RealtimePositionHandler:
             print(f"An error occurred saving logs: {e}")
 
     def getCurrentPosition(self):
-        position = np.array([[self.state[0, 0]],
-                             [self.state[1, 0]]])
-        velocity = np.array([[self.state[2, 0]],
-                             [self.state[3, 0]]])
+        return self.position + (self.speed * (perf_counter() - self.lastUPD_time))
 
-        self.currentPosition = position + (velocity * (time.time() - self.lastUPD_time))
-        return self.currentPosition
+    def readSensorsRoutine(self):
 
-    def newPositionReceive(self, newState: np.array):
-        self.lastUPD_time = time.time()
-        self.state = newState
+
+    def newPositionReceive(self, position: np.array, speed: np.array):
+        self.lastUPD_time = perf_counter()
+        self.position = position
+        self.speed = speed
 
 
 class MotorControlHandler:
@@ -164,12 +168,9 @@ class MotorControlHandler:
                 self.firstDropDone = True
                 if distance > 0:
                     self.lastPos += ((currentPosition - self.lastPos) / distance) * 10
-                if not self.test:
-                    self.realtimeHandler.logDate(type='Motor',
-                                                 disposition=(currentPosition[0, 0], currentPosition[1, 0]))
-                else:
-                    self.realtimeHandler.logDate(type='Motor',
-                                                 disposition=self.gpsHandler.testData.getPosition(noise=False))
+
+                self.realtimeHandler.logDate(type='Motor', disposition=(currentPosition[0, 0], currentPosition[1, 0]))
+
                 self.mainmotor.motor_go(True, "Full", 800, 0.0008, False, 0.0000)
                 print("motor revolution")
             sleep(0.1)
