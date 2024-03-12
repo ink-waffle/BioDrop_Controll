@@ -31,7 +31,7 @@ print_gravity = np.round(gravity, 2)
 gravity_magnitude = np.linalg.norm(gravity)
 gravity_normalized = gravity / gravity_magnitude
 
-# [sink * -sini * cosj + cosk * -sinj] = [G_x]
+# [sink * -sini * cosj - cosk * sinj] =  [G_x]
 # [cosk * -sini * cosj + sinj * sink] == [G_y]
 # [cosi * cosj] ======================== [G_z]
 # [cosi * sink] = [Y_x]
@@ -87,7 +87,7 @@ while True:
                          np.cos(roll) * np.cos(pitch)])
     y_vector = np.array([np.cos(roll) * np.sin(yawn),
                          np.cos(roll) * np.cos(yawn),
-                         -np.sin(roll)])
+                         np.sin(roll)])
     x_vector = np.array([y_vector[1] * z_vector[2] - y_vector[2] * z_vector[1],
                          y_vector[2] * z_vector[0] - y_vector[0] * z_vector[2],
                          y_vector[0] * z_vector[1] - y_vector[1] * z_vector[0]])
