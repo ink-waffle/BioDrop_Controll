@@ -46,7 +46,7 @@ z_vector = np.array([np.sin(yawn) * -np.sin(roll) * np.cos(pitch) + np.cos(yawn)
                      np.cos(roll) * np.cos(pitch)])
 y_vector = np.array([np.cos(roll) * np.sin(yawn),
                      np.cos(roll) * np.cos(yawn),
-                     np.sin(roll)])
+                     -np.sin(roll)])
 x_vector = np.array([y_vector[1] * z_vector[2] - y_vector[2] * z_vector[1],
                      y_vector[2] * z_vector[0] - y_vector[0] * z_vector[2],
                      y_vector[0] * z_vector[1] - y_vector[1] * z_vector[0]])
@@ -87,7 +87,7 @@ while True:
                          np.cos(roll) * np.cos(pitch)])
     y_vector = np.array([np.cos(roll) * np.sin(yawn),
                          np.cos(roll) * np.cos(yawn),
-                         np.sin(roll)])
+                         -np.sin(roll)])
     x_vector = np.array([y_vector[1] * z_vector[2] - y_vector[2] * z_vector[1],
                          y_vector[2] * z_vector[0] - y_vector[0] * z_vector[2],
                          y_vector[0] * z_vector[1] - y_vector[1] * z_vector[0]])
