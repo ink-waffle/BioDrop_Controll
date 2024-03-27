@@ -31,8 +31,8 @@ print_gravity = np.round(gravity, 2)
 gravity_magnitude = np.linalg.norm(gravity)
 gravity_normalized = gravity / gravity_magnitude
 
-# [sink * -sini * cosj - cosk * sinj] =  [G_x]
-# [cosk * -sini * cosj + sinj * sink] == [G_y]
+# [sink * sini * cosj - cosk * sinj] =  [G_x]
+# [cosk * sini * cosj + sinj * sink] == [G_y]
 # [cosi * cosj] ======================== [G_z]
 # [cosi * sink] = [Y_x]
 # [cosi * cosk] = [Y_y]
@@ -41,7 +41,7 @@ initialPitch = pitch = np.float32(np.arcsin(-gravity_normalized[0]))
 initialRoll = roll = np.float32(np.arcsin(gravity_normalized[1] / (np.cos(pitch))))
 initialYawn = yawn = np.float32(0)
 
-z_vector = np.array([np.sin(yawn) * -np.sin(roll) * np.cos(pitch) + np.cos(yawn) * -np.sin(pitch),
+z_vector = np.array([np.sin(yawn) * np.sin(roll) * np.cos(pitch) - np.cos(yawn) * np.sin(pitch),
                      np.cos(yawn) * np.sin(roll) * np.cos(pitch) + np.sin(pitch) * np.sin(yawn),
                      np.cos(roll) * np.cos(pitch)])
 y_vector = np.array([np.cos(roll) * np.sin(yawn),
@@ -82,8 +82,11 @@ while True:
     pitch += np.float32(0.000003) if initialPitch > pitch else np.float32(-0.000003)
     yawn += np.float32(0.000003) if initialYawn > yawn else np.float32(-0.000003)
 
-    z_vector = np.array([-np.sin(yawn) * -np.sin(roll) * np.cos(pitch) - np.cos(yawn) * np.sin(pitch),
-                         np.cos(yawn) * -np.sin(roll) * np.cos(pitch) + np.sin(pitch) * -np.sin(yawn),
+    # z_vector = np.array([np.sin(yawn) * np.sin(roll) * np.cos(pitch) - np.cos(yawn) * np.sin(pitch),
+    #                      np.cos(yawn) * np.sin(roll) * np.cos(pitch) + np.sin(pitch) * np.sin(yawn),
+    #                      np.cos(roll) * np.cos(pitch)])
+    z_vector = np.array([-np.cos(yawn) * np.sin(pitch),
+                         np.cos(yawn) * np.sin(roll) * np.cos(pitch) + np.sin(pitch) * np.sin(yawn),
                          np.cos(roll) * np.cos(pitch)])
     y_vector = np.array([np.cos(roll) * np.sin(yawn),
                          np.cos(roll) * np.cos(yawn),
@@ -104,7 +107,7 @@ while True:
     speed[2] += acceleration_projection_z * dT
     traversedDistance += np.linalg.norm(speed) * dT
 
-    # print_gravity = np.round(gravity, 2)
+    print_gravity = np.round(gravity, 2)
     # print_acceleration = np.round(np.array(mpu.acceleration), 2)
     print_x = np.int16(x_vector * 100)
     print_y = np.int16(y_vector * 100)
@@ -113,6 +116,7 @@ while True:
     print_speed = np.int16(speed * 100)
     # sys.stdout.write(f'\rvX: {print_speed[0]}, vY: {print_speed[1]}, vZ: {print_speed[2]}; roll: {np.round(roll, 2)}, pitch: {np.round(pitch, 2)}, yawn: {np.round(yawn, 2)}; dist: {np.int16(traversedDistance * 100)}  ')
     # sys.stdout.write(f'\rxX: {print_x[0]}, xY: {print_x[1]}, xZ: {print_x[2]}; yX: {print_y[0]}, yY: {print_y[1]}, yZ: {print_y[2]}; zX: {print_z[0]}, zY: {print_z[1]}, zZ: {print_z[2]}; ')
-    sys.stdout.write(f'\raX: {print_acceleration[0]}, aY: {print_acceleration[1]}, aZ: {print_acceleration[2]}; roll: {np.int16(roll * 100)}, pitch: {np.int16(pitch * 100)}, yawn: {np.int16(yawn * 100)}; ')
+    # sys.stdout.write(f'\raX: {print_acceleration[0]}, aY: {print_acceleration[1]}, aZ: {print_acceleration[2]}; roll: {np.int16(roll * 100)}, pitch: {np.int16(pitch * 100)}, yawn: {np.int16(yawn * 100)}; ')
+    sys.stdout.write(f'\rgX: {print_gravity[0]}, gY: {print_gravity[1]}, gZ: {print_gravity[2]}; roll: {np.int16(roll * 100)}, pitch: {np.int16(pitch * 100)}, yawn: {np.int16(yawn * 100)}; ')
     sys.stdout.flush()
     sleep(0.01)
