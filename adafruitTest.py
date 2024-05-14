@@ -58,11 +58,14 @@ while True:
 
     gravity_normalized_mid = gravity_normalized + (np.cross(-dRotation, gravity_normalized) * dT / 2)
     ox_mid = ox + (np.cross(-dRotation, ox) * dT / 2)
-    oy_mid = ox + (np.cross(-dRotation, oy) * dT / 2)
+    oy_mid = oy + (np.cross(-dRotation, oy) * dT / 2)
+    # gravity_normalized_mid = gravity_normalized
+    # ox_mid = ox
+    # oy_mid = oy
 
     gravity_normalized += np.cross(-dRotation, gravity_normalized_mid) * dT
     ox += np.cross(-dRotation, ox_mid) * dT
-    oy += np.cross(-dRotation, oy) * dT
+    oy += np.cross(-dRotation, oy_mid) * dT
 
     gravity_normalized /= np.linalg.norm(gravity_normalized)
     ox /= np.linalg.norm(ox)
