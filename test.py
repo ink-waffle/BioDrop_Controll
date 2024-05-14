@@ -4,7 +4,6 @@ import adafruit_gps
 from time import sleep
 import board
 import adafruit_mpu6050
-import numpy
 import sys
 from time import perf_counter
 

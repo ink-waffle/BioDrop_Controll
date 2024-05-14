@@ -1,33 +1,53 @@
 import serial
 import adafruit_gps
-from time import sleep
+from time import sleep, perf_counter
 import board
 import sys
 import adafruit_mpu6050
 import numpy as np
+import sys
 
-# Create a serial connection
 uart = serial.Serial("/dev/serial0", baudrate=9600)
 i2c = board.I2C()
 mpu = adafruit_mpu6050.MPU6050(i2c)
-# Create a GPS module instance
 gps = adafruit_gps.GPS(uart, debug=False)
 
-while True:
-    # Update GPS data
-    gps.update()
+noise = np.array([0,
+                  0,
+                  0], dtype=np.float32)
+gravity = np.array([0,
+                    0,
+                    0], dtype=np.float32)
 
-    # Check if there are new coordinates available
-    if gps.has_fix:
-        # Print the position
-        print('Latitude: {0:.6f}'.format(gps.latitude), 'Longitude: {0:.6f}'.format(gps.longitude))
-    else:
-        # print("no gps fix")
-        pass
-    # print("Acceleration: X:%.2f, Y: %.2f, Z: %.2f m/s^2" % (mpu.acceleration))
-    # print("Gyro X:%.2f, Y: %.2f, Z: %.2f rad/s" % (mpu.gyro))
-    print_acceleration = np.round(np.array(mpu.acceleration), 2)
-    print_gyro = np.round(np.array(mpu.gyro), 2)
-    sys.stdout.write(f'\raX: {print_acceleration[0]}, aY: {print_acceleration[1]}, aZ: {print_acceleration[2]} rX: {print_gyro[0]}, rY: {print_gyro[1]}, rZ: {print_gyro[2]}')
+for i in range(1000):
+    noise += np.float32(0.001) * np.array(mpu.gyro)
+    gravity += np.float32(0.001) * np.array(mpu.acceleration)
+    sleep(0.001)
+
+
+# Infer Rotation
+print_gravity = np.round(gravity, 2)
+gravity_magnitude = np.linalg.norm(gravity)
+gravity_normalized = gravity / gravity_magnitude
+
+lasttime = np.float32(perf_counter())
+while True:
+    # # Update GPS data
+    # gps.update()
+    #
+    # # Check if there are new coordinates available
+    # if gps.has_fix:
+    #     # Print the position
+    #     print('Latitude: {0:.6f}'.format(gps.latitude), 'Longitude: {0:.6f}'.format(gps.longitude))
+    # else:
+    #     # print("no gps fix")
+    #     pass
+    dRotation = np.array(mpu.gyro, dtype=np.float32) - noise
+    dRotation = np.where(np.less_equal(np.abs(dRotation), np.float32(0.01)), 0, dRotation)
+    dT = np.float32(perf_counter()) - lasttime
+    gravity += np.cross(dRotation, gravity) * dT
+
+    print_gravity = np.round(gravity, 2)
+    sys.stdout.write(f'\rgX: {print_gravity[0]}, gY: {print_gravity[1]}, gZ: {print_gravity[2]}       ')
     sys.stdout.flush()
     sleep(0.1)
