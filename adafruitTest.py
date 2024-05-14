@@ -75,7 +75,7 @@ while True:
     oy /= np.linalg.norm(oy)
 
     gravity = gravity_normalized * gravity_magnitude
-    acceleration = np.array(mpu.acceleration) - gravity
+    acceleration = np.array(mpu.acceleration)
     # acceleration = np.array([np.dot(acceleration, ox),
     #                          np.dot(acceleration, oy),
     #                          np.dot(acceleration, gravity_normalized)])
