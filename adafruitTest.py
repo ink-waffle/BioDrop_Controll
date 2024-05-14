@@ -76,8 +76,7 @@ while True:
     acceleration = np.where(np.less_equal(np.abs(acceleration), np.float32(0.2)), 0, acceleration)
     speed += acceleration * dT
     # speed -= np.float32(0.001) * speed / np.linalg.norm(speed)
-    speed = np.where(np.less_equal(np.abs(speed), np.float32(0.2)), 0, speed)
-    position += speed * dT
+    position += np.where(np.less_equal(np.abs(speed), np.float32(0.2)), 0, speed) * dT
 
     lasttime = np.float32(perf_counter())
     # sys.stdout.write(f'\rgX_: {gravity[0]:.2f}, gY_: {gravity[1]:.2f}, gZ_: {gravity[2]:.2f} ; gX: {acceleration[0]:.2f}, gY: {acceleration[1]:.2f}, gZ: {acceleration[2]:.2f}     ')
