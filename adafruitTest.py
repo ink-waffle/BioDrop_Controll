@@ -48,8 +48,7 @@ while True:
     # gravity += np.cross(dRotation, gravity) * dT
 
     print_gravity = np.round(gravity, 2)
-    print_angular = np.round(dRotation, 2)
     # sys.stdout.write(f'\rgX: {print_gravity[0]}, gY: {print_gravity[1]}, gZ: {print_gravity[2]}       ')
-    sys.stdout.write(f'\rwX: {print_angular[0]}, wY: {print_angular[1]}, wZ: {print_angular[2]}       ')
+    sys.stdout.write(f'\rwX: {dRotation[0]:.2f}, wY: {dRotation[1]:.2f}, wZ: {dRotation[2]:.2f}       ')
     sys.stdout.flush()
     sleep(0.1)
