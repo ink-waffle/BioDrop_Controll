@@ -85,7 +85,7 @@ while True:
     position += np.where(np.less_equal(np.abs(speed), np.float32(0.2)), 0, speed) * dT
 
     lasttime = np.float32(perf_counter())
-    # sys.stdout.write(f'\rgX_: {gravity[0]:.2f}, gY_: {gravity[1]:.2f}, gZ_: {gravity[2]:.2f} ; gX: {acceleration[0]:.2f}, gY: {acceleration[1]:.2f}, gZ: {acceleration[2]:.2f}     ')
-    sys.stdout.write(f'\raX: {acceleration[0]:.2f}, aY: {acceleration[1]:.2f}, aZ: {acceleration[2]:.2f} ; vX: {speed[0]:.2f}, vY: {speed[1]:.2f}, zZ: {speed[2]:.2f} ; pX: {position[0]:.2f}, pY: {position[1]:.2f}, pZ: {position[2]:.2f}       ')
+    sys.stdout.write(f'\rgX: {gravity[0]:.2f}, gY: {gravity[1]:.2f}, gZ: {gravity[2]:.2f} ; aX: {acceleration[0]:.2f}, aY: {acceleration[1]:.2f}, aZ: {acceleration[2]:.2f}     ')
+    # sys.stdout.write(f'\raX: {acceleration[0]:.2f}, aY: {acceleration[1]:.2f}, aZ: {acceleration[2]:.2f} ; vX: {speed[0]:.2f}, vY: {speed[1]:.2f}, zZ: {speed[2]:.2f} ; pX: {position[0]:.2f}, pY: {position[1]:.2f}, pZ: {position[2]:.2f}       ')
     sys.stdout.flush()
     sleep(0.01)
