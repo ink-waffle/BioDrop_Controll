@@ -70,11 +70,11 @@ while True:
     ox += np.cross(-dRotation, ox_mid) * dT
     oy += np.cross(-dRotation, oy_mid) * dT
 
-    gravity_normalized /= np.linalg.norm(gravity_normalized)
+    # gravity_normalized /= np.linalg.norm(gravity_normalized)
     ox /= np.linalg.norm(ox)
     oy /= np.linalg.norm(oy)
 
-    gravity = gravity_normalized * gravity_magnitude
+    gravity = (gravity_normalized / np.linalg.norm(gravity_normalized)) * gravity_magnitude
     acceleration = np.array(mpu.acceleration)
     # acceleration = np.array([np.dot(acceleration, ox),
     #                          np.dot(acceleration, oy),
