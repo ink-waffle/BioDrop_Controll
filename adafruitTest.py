@@ -45,11 +45,13 @@ while True:
     dRotation = np.array(mpu.gyro, dtype=np.float32) - noise
     dRotation = np.where(np.less_equal(np.abs(dRotation), np.float32(0.01)), 0, dRotation)
     dT = np.float32(perf_counter()) - lasttime
-    gravity += np.cross(-dRotation, gravity) * dT
+    gravity_normalized += np.cross(-dRotation, gravity_normalized) * dT
+    gravity_normalized = gravity_normalized / np.norm(gravity_normalised)
+    gravity = gravity_normalized * gravity_magnitude
     acceleration = np.array(mpu.acceleration)
     lasttime = np.float32(perf_counter())
 
     sys.stdout.write(f'\rgX_: {gravity[0]:.2f}, gY_: {gravity[1]:.2f}, gZ_: {gravity[2]:.2f} ; gX: {acceleration[0]:.2f}, gY: {acceleration[1]:.2f}, gZ: {acceleration[2]:.2f}     ')
     # sys.stdout.write(f'\rwX: {dRotation[0]:.2f}, wY: {dRotation[1]:.2f}, wZ: {dRotation[2]:.2f}       ')
     sys.stdout.flush()
-    sleep(0.1)
+    sleep(0.01)
