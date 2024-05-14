@@ -75,6 +75,7 @@ while True:
                              np.dot(acceleration, gravity_normalized)])
     acceleration = np.where(np.less_equal(np.abs(acceleration), np.float32(0.2)), 0, acceleration)
     speed += acceleration * dT
+    speed -= np.float(0.001) * speed / np.linalg.norm(speed)
     position += speed * dT
 
     lasttime = np.float32(perf_counter())
