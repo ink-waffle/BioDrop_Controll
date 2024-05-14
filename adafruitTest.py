@@ -46,7 +46,7 @@ while True:
     dRotation = np.where(np.less_equal(np.abs(dRotation), np.float32(0.01)), 0, dRotation)
     dT = np.float32(perf_counter()) - lasttime
     gravity_normalized += np.cross(-dRotation, gravity_normalized) * dT
-    gravity_normalized = gravity_normalized / np.norm(gravity_normalised)
+    gravity_normalized = gravity_normalized / np.linalg.norm(gravity_normalised)
     gravity = gravity_normalized * gravity_magnitude
     acceleration = np.array(mpu.acceleration)
     lasttime = np.float32(perf_counter())
