@@ -46,6 +46,7 @@ while True:
     dRotation = np.where(np.less_equal(np.abs(dRotation), np.float32(0.01)), 0, dRotation)
     dT = np.float32(perf_counter()) - lasttime
     gravity += np.cross(dRotation, gravity) * dT
+    lasttime = np.float32(perf_counter())
 
     sys.stdout.write(f'\rgX: {gravity[0]:.2f}, gY: {gravity[1]:.2f}, gZ: {gravity[2]:.2f}       ')
     # sys.stdout.write(f'\rwX: {dRotation[0]:.2f}, wY: {dRotation[1]:.2f}, wZ: {dRotation[2]:.2f}       ')
