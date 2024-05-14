@@ -59,12 +59,12 @@ while True:
     dRotation = np.where(np.less_equal(np.abs(dRotation), np.float32(0.05)), 0, dRotation)
     dT = np.float32(perf_counter()) - lasttime
 
-    # gravity_normalized_mid = gravity_normalized + (np.cross(-dRotation, gravity_normalized) * dT / 2)
-    # ox_mid = ox + (np.cross(-dRotation, ox) * dT / 2)
-    # oy_mid = oy + (np.cross(-dRotation, oy) * dT / 2)
-    gravity_normalized_mid = gravity_normalized
-    ox_mid = ox
-    oy_mid = oy
+    gravity_normalized_mid = gravity_normalized + (np.cross(-dRotation, gravity_normalized) * dT / 2)
+    ox_mid = ox + (np.cross(-dRotation, ox) * dT / 2)
+    oy_mid = oy + (np.cross(-dRotation, oy) * dT / 2)
+    # gravity_normalized_mid = gravity_normalized
+    # ox_mid = ox
+    # oy_mid = oy
 
     gravity_normalized += np.cross(-dRotation, gravity_normalized_mid) * dT
     ox += np.cross(-dRotation, ox_mid) * dT
