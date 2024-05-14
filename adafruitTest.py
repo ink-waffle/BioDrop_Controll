@@ -72,7 +72,7 @@ while True:
     acceleration = np.array(mpu.acceleration) - gravity
     acceleration = np.array([np.dot(acceleration, ox),
                              np.dot(acceleration, oy),
-                             np.dot(acceleration, gravity_normalised)])
+                             np.dot(acceleration, gravity_normalized)])
     speed += acceleration * dT
     position += speed * dT
 
