@@ -28,10 +28,10 @@ position = np.array([0,
                      0,
                      0], dtype=np.float32)
 
-for i in range(1000):
-    noise += np.float32(0.001) * np.array(mpu.gyro)
-    gravity += np.float32(0.001) * np.array(mpu.acceleration)
-    sleep(0.001)
+for i in range(100):
+    noise += np.float32(0.01) * np.array(mpu.gyro)
+    gravity += np.float32(0.01) * np.array(mpu.acceleration)
+    sleep(0.01)
 
 
 # Infer Rotation
@@ -59,12 +59,12 @@ while True:
     dRotation = np.where(np.less_equal(np.abs(dRotation), np.float32(0.01)), 0, dRotation)
     dT = np.float32(perf_counter()) - lasttime
 
-    # gravity_normalized_mid = gravity_normalized + (np.cross(-dRotation, gravity_normalized) * dT / 2)
-    # ox_mid = ox + (np.cross(-dRotation, ox) * dT / 2)
-    # oy_mid = oy + (np.cross(-dRotation, oy) * dT / 2)
-    gravity_normalized_mid = gravity_normalized
-    ox_mid = ox
-    oy_mid = oy
+    gravity_normalized_mid = gravity_normalized + (np.cross(-dRotation, gravity_normalized) * dT / 2)
+    ox_mid = ox + (np.cross(-dRotation, ox) * dT / 2)
+    oy_mid = oy + (np.cross(-dRotation, oy) * dT / 2)
+    # gravity_normalized_mid = gravity_normalized
+    # ox_mid = ox
+    # oy_mid = oy
 
     gravity_normalized += np.cross(-dRotation, gravity_normalized_mid) * dT
     ox += np.cross(-dRotation, ox_mid) * dT
@@ -88,4 +88,4 @@ while True:
     sys.stdout.write(f'\rgX: {gravity[0]:.2f}, gY: {gravity[1]:.2f}, gZ: {gravity[2]:.2f} ; aX: {acceleration[0]:.2f}, aY: {acceleration[1]:.2f}, aZ: {acceleration[2]:.2f}     ')
     # sys.stdout.write(f'\raX: {acceleration[0]:.2f}, aY: {acceleration[1]:.2f}, aZ: {acceleration[2]:.2f} ; vX: {speed[0]:.2f}, vY: {speed[1]:.2f}, zZ: {speed[2]:.2f} ; pX: {position[0]:.2f}, pY: {position[1]:.2f}, pZ: {position[2]:.2f}       ')
     sys.stdout.flush()
-    sleep(0.001)
+    sleep(0.01)
