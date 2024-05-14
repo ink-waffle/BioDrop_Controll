@@ -73,6 +73,7 @@ while True:
     acceleration = np.array([np.dot(acceleration, ox),
                              np.dot(acceleration, oy),
                              np.dot(acceleration, gravity_normalized)])
+    acceleration = np.where(np.less_equal(np.abs(acceleration), np.float32(0.2)), 0, acceleration)
     speed += acceleration * dT
     position += speed * dT
 
