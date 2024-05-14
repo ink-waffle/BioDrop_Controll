@@ -42,7 +42,7 @@ while True:
     # else:
     #     # print("no gps fix")
     #     pass
-    dRotation = np.array(mpu.gyro, dtype=np.float32) - noise
+    dRotation = np.array(mpu.gyro, dtype=np.float32)
     dRotation = np.where(np.less_equal(np.abs(dRotation), np.float32(0.01)), 0, dRotation)
     dT = np.float32(perf_counter()) - lasttime
     gravity_normalized_mid = gravity_normalized + (np.cross(-dRotation, gravity_normalized) * dT / 2)
