@@ -119,7 +119,7 @@ finally:
     current_time = datetime.datetime.now().strftime("%m%d_%H%M%S")
 
     # Export DataFrame to a CSV file with the current time in the filename
-    filename = f"/logs/accelerometerlogs/accTest_{current_time}.csv"
+    filename = f"logs/accelerometerlogs/accTest_{current_time}.csv"
     df.to_csv(filename, index=False)
 
     print(f"Telemetry data saved to {filename}")
