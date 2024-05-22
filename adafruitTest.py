@@ -116,7 +116,7 @@ finally:
     df = pd.DataFrame(debug_df)
 
     # Get the current time for the filename
-    current_time = datetime.now().strftime("%m%d_%H%M%S")
+    current_time = datetime.datetime.now().strftime("%m%d_%H%M%S")
 
     # Export DataFrame to a CSV file with the current time in the filename
     filename = f"/logs/accelerometerlogs/accTest_{current_time}.csv"
