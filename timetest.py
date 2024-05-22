@@ -15,4 +15,4 @@ for _ in range(1000):
     lasttime = perf_counter()
     sleep(0.001)
 
-print(dT / 1000)
+print(str(dT / 1000))
