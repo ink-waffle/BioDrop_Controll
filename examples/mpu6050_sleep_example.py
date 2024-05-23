@@ -10,10 +10,6 @@ import numpy as np
 i2c = board.I2C()  # uses board.SCL and board.SDA
 # i2c = board.STEMMA_I2C()  # For using the built-in STEMMA QT connector on a microcontroller
 mpu = adafruit_mpu6050.MPU6050(i2c)
-print(mpu.cycle)
-for count in range(0, 40):
-    print(mpu.acceleration)
-    time.sleep(0.1)
 # mpu.clock_source = adafruit_mpu6050.ClockSource.CLKSEL_INTERNAL_8MHz
 # This example is meant to be used with the serial plotter which makes
 # it easier to see how the readings change with different settings.
@@ -23,10 +19,12 @@ lasttime = perf_counter()
 lastacc = np.array([0, 0, 0], dtype=np.float32)
 time = np.float32(0)
 for _ in range(10000):
-    acc = np.array(mpu.acceleration)
+    acc = np.array(mpu.acceleration, dtype=np.float32)
+    print(acc)
     if np.equal(acc, lastacc):
         print(f"Same Acceleration detected: {acc} and {lastacc}")
         break
+    lastacc = acc
     time += perf_counter() - lasttime
     
 print(f"Average time was: {time/10000}")
