@@ -36,10 +36,10 @@ position = np.array([0,
                      0,
                      0], dtype=np.float32)
 
-for i in range(40):
-    noise += np.float32(0.025) * np.array(mpu.gyro)
-    gravity += np.float32(0.025) * np.array(mpu.acceleration)
-    sleep(0.025)
+for _ in range(100):
+    noise += np.float32(0.01) * np.array(mpu.gyro)
+    gravity += np.float32(0.01) * np.array(mpu.acceleration)
+    sleep(0.01)
 
 
 # Infer Rotation
