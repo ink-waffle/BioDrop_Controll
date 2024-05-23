@@ -16,7 +16,7 @@ mpu = adafruit_mpu6050.MPU6050(i2c)
 
 while True:
     # first show some 'normal' readings
-
+    print('Normal:\n')
     mpu.sleep = False
     mpu.cycle = False
 
@@ -24,6 +24,7 @@ while True:
         print(mpu.acceleration)
         time.sleep(0.010)
 
+    print('Cycle:\n')
     # Next, set a slow cycle rate so the effect can be seen clearly.
     mpu.cycle_Rate = adafruit_mpu6050.Rate.CYCLE_5_HZ
     # ensure that we're not sleeping or cycle won't work
@@ -35,6 +36,7 @@ while True:
         print(mpu.acceleration)
         time.sleep(0.010)
 
+    print('Sleep:\n')
     # Finally enable sleep mode. Note that while we can still fetch
     #  data from the measurement registers, the measurements are not
     #  updated. In sleep mode the accelerometer and gyroscope are
