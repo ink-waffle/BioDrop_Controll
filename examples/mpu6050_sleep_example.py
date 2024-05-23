@@ -21,8 +21,7 @@ mpu.clock_source = adafruit_mpu6050.ClockSource.CLKSEL_INTERNAL_8MHz
 while True:
     # first show some 'normal' readings
     print('Normal:\n')
-    mpu.sleep = False
-    mpu.cycle = False
+    mpu.reset()
 
     for count in range(0, 40):
         print(mpu.acceleration)
