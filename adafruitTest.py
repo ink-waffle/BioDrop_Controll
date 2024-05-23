@@ -94,6 +94,7 @@ try:
         #                          np.dot(acceleration, oy),
         #                          np.dot(acceleration, gravity_normalized)])
         acceleration = np.where(np.less_equal(np.abs(input_acc), np.float32(0.2)), 0, input_acc)
+        acceleration = acceleration - gravity
         speed += acceleration * dT
         # speed -= np.float32(0.001) * speed / np.linalg.norm(speed)
         position += np.where(np.less_equal(np.abs(speed), np.float32(0.2)), 0, speed) * dT
