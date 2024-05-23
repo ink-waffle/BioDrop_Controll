@@ -18,16 +18,16 @@ mpu = adafruit_mpu6050.MPU6050(i2c)
 lasttime = perf_counter()
 lastacc = np.array([0, 0, 0], dtype=np.float32)
 time = np.float32(0)
-for _ in range(10000):
+for _ in range(1000):
     acc = np.array(mpu.acceleration, dtype=np.float32)
-    # if np.array_equal(acc, lastacc):
-    #     print(f"Same Acceleration detected: {acc} and {lastacc}")
-    #     break
+    if np.array_equal(acc, lastacc):
+        print(f"Same Acceleration detected: {acc} and {lastacc}")
+        break
     lastacc = acc
     time += perf_counter() - lasttime
     lasttime = perf_counter()
     
-print(f"Average time was: {time/10000}")
+print(f"Average time was: {time/1000}")
 # while True:
 #     # first show some 'normal' readings
 #     print('Normal:\n')
