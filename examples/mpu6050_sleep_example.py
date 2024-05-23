@@ -25,6 +25,7 @@ for _ in range(10000):
         break
     lastacc = acc
     time += perf_counter() - lasttime
+    lasttime = perf_counter()
     
 print(f"Average time was: {time/10000}")
 # while True:
