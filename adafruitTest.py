@@ -12,7 +12,13 @@ import pandas as pd
 uart = serial.Serial("/dev/serial0", baudrate=9600)
 i2c = board.I2C()
 mpu = adafruit_mpu6050.MPU6050(i2c)
+mpu.sleep = False
+mpu.cycle = False
+sleep(0.1)
 mpu.gyro_range = adafruit_mpu6050.GyroRange.RANGE_500_DPS
+sleep(0.1)
+mpu.filter_bandwidth = adafruit_mpu6050.Bandwidth.BAND_184_HZ
+sleep(0.1)
 gps = adafruit_gps.GPS(uart, debug=False)
 
 noise = np.array([0,
