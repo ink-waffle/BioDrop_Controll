@@ -13,7 +13,7 @@ uart = serial.Serial("/dev/serial0", baudrate=9600)
 i2c = board.I2C()
 mpu = adafruit_mpu6050.MPU6050(i2c)
 mpu.sleep = False
-mpu.cycle = False
+mpu.cycle = True
 sleep(0.1)
 mpu.gyro_range = adafruit_mpu6050.GyroRange.RANGE_500_DPS
 sleep(0.1)
