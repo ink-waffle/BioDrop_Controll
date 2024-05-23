@@ -14,9 +14,8 @@ i2c = board.I2C()
 mpu = adafruit_mpu6050.MPU6050(i2c)
 # mpu.sleep = False
 # mpu.cycle = True
-sleep(0.1)
-mpu.gyro_range = adafruit_mpu6050.GyroRange.RANGE_500_DPS
-sleep(0.1)
+mpu.cycle_Rate = adafruit_mpu6050.Rate.CYCLE_40_HZ
+# mpu.gyro_range = adafruit_mpu6050.GyroRange.RANGE_500_DPS
 mpu.filter_bandwidth = adafruit_mpu6050.Bandwidth.BAND_184_HZ
 sleep(0.1)
 gps = adafruit_gps.GPS(uart, debug=False)
@@ -114,7 +113,7 @@ try:
         sys.stdout.write(f'\rgX: {gravity[0]:.2f}, gY: {gravity[1]:.2f}, gZ: {gravity[2]:.2f} ; aX: {acceleration[0]:.2f}, aY: {acceleration[1]:.2f}, aZ: {acceleration[2]:.2f}     ')
         # sys.stdout.write(f'\raX: {acceleration[0]:.2f}, aY: {acceleration[1]:.2f}, aZ: {acceleration[2]:.2f} ; vX: {speed[0]:.2f}, vY: {speed[1]:.2f}, zZ: {speed[2]:.2f} ; pX: {position[0]:.2f}, pY: {position[1]:.2f}, pZ: {position[2]:.2f}       ')
         sys.stdout.flush()
-        sleep(0.1)
+        sleep(0.025)
 
 except KeyboardInterrupt:
     # Graceful exit on interrupt
