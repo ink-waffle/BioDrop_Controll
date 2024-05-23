@@ -8,7 +8,7 @@ import adafruit_mpu6050
 i2c = board.I2C()  # uses board.SCL and board.SDA
 # i2c = board.STEMMA_I2C()  # For using the built-in STEMMA QT connector on a microcontroller
 mpu = adafruit_mpu6050.MPU6050(i2c)
-
+mpu.clock_source = adafruit_mpu6050.ClockSource.CLKSEL_INTERNAL_8MHz
 # This example is meant to be used with the serial plotter which makes
 # it easier to see how the readings change with different settings.
 # Make sure to poke and prod the sensor while the demo is running to
