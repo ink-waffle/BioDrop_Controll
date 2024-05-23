@@ -61,10 +61,13 @@ try:
         #     # print("no gps fix")
         #     pass
         input_gyro = mpu.gyro
+        input_acc = np.array(mpu.acceleration)
+        dT = np.float32(perf_counter()) - lasttime
+        lasttime = np.float32(perf_counter())
+        
         dRotation = np.array(mpu.gyro, dtype=np.float32) - noise
         dRotation = np.where(np.less_equal(np.abs(dRotation), np.float32(0.01)), 0, dRotation)
-        dT = np.float32(perf_counter()) - lasttime
-
+        
         gravity_normalized_mid = gravity_normalized + (np.cross(-dRotation, gravity_normalized) * dT / 2)
         ox_mid = ox + (np.cross(-dRotation, ox) * dT / 2)
         oy_mid = oy + (np.cross(-dRotation, oy) * dT / 2)
@@ -81,7 +84,6 @@ try:
         oy /= np.linalg.norm(oy)
 
         gravity = (gravity_normalized / np.linalg.norm(gravity_normalized)) * gravity_magnitude
-        input_acc = np.array(mpu.acceleration)
         # acceleration = np.array([np.dot(acceleration, ox),
         #                          np.dot(acceleration, oy),
         #                          np.dot(acceleration, gravity_normalized)])
