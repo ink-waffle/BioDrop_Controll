@@ -24,7 +24,7 @@ lastacc = np.array([0, 0, 0], dtype=np.float32)
 time = np.float32(0)
 for _ in range(10000):
     acc = np.array(mpu.acceleration)
-    if acc == lastacc:
+    if np.equal(acc, lastacc):
         print(f"Same Acceleration detected: {acc} and {lastacc}")
         break
     time += perf_counter() - lasttime
