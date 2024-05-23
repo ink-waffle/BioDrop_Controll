@@ -20,9 +20,9 @@ while True:
     mpu.sleep = False
     mpu.cycle = False
 
-    for count in range(0, 100):
+    for count in range(0, 40):
         print(mpu.acceleration)
-        time.sleep(0.010)
+        time.sleep(0.1)
 
     print('Cycle:\n')
     # Next, set a slow cycle rate so the effect can be seen clearly.
@@ -32,9 +32,9 @@ while True:
     # Finally, enable cycle mode
     mpu.cycle = True
 
-    for count in range(0, 100):
+    for count in range(0, 40):
         print(mpu.acceleration)
-        time.sleep(0.010)
+        time.sleep(0.1)
 
     print('Sleep:\n')
     # Finally enable sleep mode. Note that while we can still fetch
@@ -45,6 +45,6 @@ while True:
     mpu.cycle = False
     mpu.sleep = True
 
-    for count in range(0, 100):
+    for count in range(0, 40):
         print(mpu.acceleration)
-        time.sleep(0.010)
+        time.sleep(0.1)
