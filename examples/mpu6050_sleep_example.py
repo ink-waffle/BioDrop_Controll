@@ -22,7 +22,7 @@ while True:
     # first show some 'normal' readings
     print('Normal:\n')
     mpu.reset()
-
+    sleep(0.1)
     for count in range(0, 40):
         print(mpu.acceleration)
         time.sleep(0.1)
