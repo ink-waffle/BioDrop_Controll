@@ -42,8 +42,6 @@ for _ in range(100):
     sleep(0.01)
 
 
-# Infer Rotation
-print_gravity = np.round(gravity, 2)
 gravity_magnitude = np.linalg.norm(gravity)
 gravity_normalized = gravity / gravity_magnitude
 ox = np.array([1, 0, 0], dtype=np.float32)
@@ -95,6 +93,8 @@ try:
         #                          np.dot(acceleration, gravity_normalized)])
         acceleration = np.where(np.less_equal(np.abs(input_acc), np.float32(0.2)), 0, input_acc)
         acceleration = acceleration - gravity
+        acceleration = acceleration - acceleration_noise
+        acceleration_noise = 0.995 * acceleration_noise + 0.005 * acceleration
         speed += acceleration * dT
         # speed -= np.float32(0.001) * speed / np.linalg.norm(speed)
         position += np.where(np.less_equal(np.abs(speed), np.float32(0.2)), 0, speed) * dT
