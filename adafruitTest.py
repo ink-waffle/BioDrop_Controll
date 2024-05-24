@@ -39,7 +39,7 @@ position = np.array([0,
 for _ in range(100):
     noise += np.float32(0.01) * np.array(mpu.gyro)
     gravity += np.float32(0.01) * np.array(mpu.acceleration)
-    sleep(0.02)
+    sleep(0.01)
 
 
 gravity_magnitude = np.linalg.norm(gravity)
@@ -72,12 +72,12 @@ try:
         dRotation = np.array(input_gyro, dtype=np.float32) - noise
         dRotation = np.where(np.less_equal(np.abs(dRotation), np.float32(0.05)), 0, dRotation)
         
-        gravity_normalized_mid = gravity_normalized + (np.cross(-dRotation, gravity_normalized) * dT / 2)
-        ox_mid = ox + (np.cross(-dRotation, ox) * dT / 2)
-        oy_mid = oy + (np.cross(-dRotation, oy) * dT / 2)
-        # gravity_normalized_mid = gravity_normalized
-        # ox_mid = ox
-        # oy_mid = oy
+        # gravity_normalized_mid = gravity_normalized + (np.cross(-dRotation, gravity_normalized) * dT / 2)
+        # ox_mid = ox + (np.cross(-dRotation, ox) * dT / 2)
+        # oy_mid = oy + (np.cross(-dRotation, oy) * dT / 2)
+        gravity_normalized_mid = gravity_normalized
+        ox_mid = ox
+        oy_mid = oy
 
         gravity_normalized += np.cross(-dRotation, gravity_normalized_mid) * dT
         ox += np.cross(-dRotation, ox_mid) * dT
@@ -115,7 +115,7 @@ try:
         # sys.stdout.write(f'\raX: {acceleration_denoised[0]:.2f}, aY: {acceleration_denoised[1]:.2f}, aZ: {acceleration_denoised[2]:.2f} ; vX: {speed[0]:.2f}, vY: {speed[1]:.2f}, vZ: {speed[2]:.2f} ; pX: {position[0]:.2f}, pY: {position[1]:.2f}, pZ: {position[2]:.2f}       ')
         # sys.stdout.write(f'\raX: {acceleration_denoised[0]:.2f}, aY: {acceleration_denoised[1]:.2f}, aZ: {acceleration_denoised[2]:.2f} ; vX: {speed[0]:.2f}, vY: {speed[1]:.2f}, vZ: {speed[2]:.2f}     ')
         sys.stdout.flush()
-        sleep(0.02)
+        sleep(0.01)
 
 except KeyboardInterrupt:
     # Graceful exit on interrupt
