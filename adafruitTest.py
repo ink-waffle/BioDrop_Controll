@@ -94,7 +94,7 @@ try:
         acceleration = input_acc - gravity
         acceleration_noise = 0.995 * acceleration_noise + 0.005 * acceleration
         acceleration_denoised = acceleration - acceleration_noise
-        acceleration_denoised = np.where(np.less_equal(np.abs(acceleration_denoised), np.float32(0.2)), 0, acceleration_denoised)
+        acceleration_denoised = np.where(np.less_equal(np.abs(acceleration_denoised), np.float32(0.1)), 0, acceleration_denoised)
         speed += acceleration_denoised * dT
         # speed -= np.float32(0.001) * speed / np.linalg.norm(speed)
         position += np.where(np.less_equal(np.abs(speed), np.float32(0.2)), 0, speed) * dT
@@ -110,7 +110,7 @@ try:
         debug_df.append(data)
 
         # sys.stdout.write(f'\rgX: {gravity[0]:.2f}, gY: {gravity[1]:.2f}, gZ: {gravity[2]:.2f} ; aX: {acceleration[0]:.2f}, aY: {acceleration[1]:.2f}, aZ: {acceleration[2]:.2f}     ')
-        sys.stdout.write(f'\raX: {acceleration[0]:.2f}, aY: {acceleration[1]:.2f}, aZ: {acceleration[2]:.2f} ; vX: {speed[0]:.2f}, vY: {speed[1]:.2f}, vZ: {speed[2]:.2f} ; pX: {position[0]:.2f}, pY: {position[1]:.2f}, pZ: {position[2]:.2f}       ')
+        sys.stdout.write(f'\raX: {acceleration_denoised[0]:.2f}, aY: {acceleration_denoised[1]:.2f}, aZ: {acceleration_denoised[2]:.2f} ; vX: {speed[0]:.2f}, vY: {speed[1]:.2f}, vZ: {speed[2]:.2f} ; pX: {position[0]:.2f}, pY: {position[1]:.2f}, pZ: {position[2]:.2f}       ')
         sys.stdout.flush()
         sleep(0.02)
 
