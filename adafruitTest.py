@@ -91,10 +91,11 @@ try:
         # acceleration = np.array([np.dot(acceleration, ox),
         #                          np.dot(acceleration, oy),
         #                          np.dot(acceleration, gravity_normalized)])
-        acceleration = input_acc - gravity - acceleration_noise
+        acceleration = input_acc - gravity
         acceleration_noise = 0.995 * acceleration_noise + 0.005 * acceleration
-        acceleration = np.where(np.less_equal(np.abs(acceleration), np.float32(0.2)), 0, acceleration)
-        speed += acceleration * dT
+        acceleration_denoised = acceleration - acceleration_noise
+        acceleration_denoised = np.where(np.less_equal(np.abs(acceleration_denoised), np.float32(0.2)), 0, acceleration_denoised)
+        speed += acceleration_denoised * dT
         # speed -= np.float32(0.001) * speed / np.linalg.norm(speed)
         position += np.where(np.less_equal(np.abs(speed), np.float32(0.2)), 0, speed) * dT
 
@@ -102,7 +103,7 @@ try:
                 'ExpGravityX': gravity_normalized[0], 'ExpGravityY': gravity_normalized[1],  'ExpGravityZ': gravity_normalized[2],
                 'ExpOxX': ox[0], 'ExpOxY': ox[1], 'ExpOxZ': ox[2],
                 'ExpOyX': oy[0], 'ExpOyY': oy[1], 'ExpOyZ': oy[2],
-                'AccX': input_acc[0], 'AccY': input_acc[1], 'AccZ': input_acc[2],
+                'AccX': acceleration[0], 'AccY': acceleration[1], 'AccZ': acceleration[2],
                 'ExpSpeedX': speed[0], 'ExpSpeedY': speed[1], 'ExpSpeedZ': speed[2],
                 'dT': dT
                 }
