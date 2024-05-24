@@ -70,7 +70,7 @@ try:
         lasttime = np.float32(perf_counter())
         
         dRotation = np.array(input_gyro, dtype=np.float32) - noise
-        dRotation = np.where(np.less_equal(np.abs(dRotation), np.float32(0.01)), 0, dRotation)
+        dRotation = np.where(np.less_equal(np.abs(dRotation), np.float32(0.05)), 0, dRotation)
         
         gravity_normalized_mid = gravity_normalized + (np.cross(-dRotation, gravity_normalized) * dT / 2)
         ox_mid = ox + (np.cross(-dRotation, ox) * dT / 2)
