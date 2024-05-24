@@ -24,8 +24,8 @@ noise = np.array([0,
                   0,
                   0], dtype=np.float32)
 acceleration_noise = np.array([0,
-                  0,
-                  0], dtype=np.float32)
+                                0,
+                                0], dtype=np.float32)
 gravity = np.array([0,
                     0,
                     0], dtype=np.float32)
@@ -93,7 +93,7 @@ try:
         #                          np.dot(acceleration, gravity_normalized)])
         acceleration = input_acc - gravity
         acceleration_noise = 0.995 * acceleration_noise + 0.005 * acceleration
-        acceleration_denoised = acceleration - acceleration_noise
+        acceleration_denoised = acceleration
         acceleration_denoised = np.where(np.less_equal(np.abs(acceleration_denoised), np.float32(0.1)), 0, acceleration_denoised)
         speed += acceleration_denoised * dT
         # speed -= np.float32(0.001) * speed / np.linalg.norm(speed)
@@ -104,6 +104,7 @@ try:
                 'ExpOxX': ox[0], 'ExpOxY': ox[1], 'ExpOxZ': ox[2],
                 'ExpOyX': oy[0], 'ExpOyY': oy[1], 'ExpOyZ': oy[2],
                 'AccX': acceleration[0], 'AccY': acceleration[1], 'AccZ': acceleration[2],
+                'AccNoiseX': acceleration_noise[0], 'AccNoiseY': acceleration_noise[1], 'AccNoiseZ': acceleration_noise[2],
                 'ExpSpeedX': speed[0], 'ExpSpeedY': speed[1], 'ExpSpeedZ': speed[2],
                 'dT': dT
                 }
