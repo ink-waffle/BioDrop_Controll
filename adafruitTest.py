@@ -86,8 +86,9 @@ try:
         # gravity_normalized /= np.linalg.norm(gravity_normalized)
         ox /= np.linalg.norm(ox)
         oy /= np.linalg.norm(oy)
+        gravity_normalized /= np.linalg.norm(gravity_normalized)
 
-        gravity = (gravity_normalized / np.linalg.norm(gravity_normalized)) * gravity_magnitude
+        gravity = gravity_normalized * gravity_magnitude
         # acceleration = np.array([np.dot(acceleration, ox),
         #                          np.dot(acceleration, oy),
         #                          np.dot(acceleration, gravity_normalized)])
