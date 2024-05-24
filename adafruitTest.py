@@ -110,9 +110,9 @@ try:
                 }
         debug_df.append(data)
 
-        # sys.stdout.write(f'\rgX: {gravity[0]:.2f}, gY: {gravity[1]:.2f}, gZ: {gravity[2]:.2f} ; aX: {acceleration[0]:.2f}, aY: {acceleration[1]:.2f}, aZ: {acceleration[2]:.2f}     ')
+        sys.stdout.write(f'\rgX: {gravity[0]:.2f}, gY: {gravity[1]:.2f}, gZ: {gravity[2]:.2f} ; aX: {input_acc[0]:.2f}, aY: {input_acc[1]:.2f}, aZ: {input_acc[2]:.2f}     ')
         # sys.stdout.write(f'\raX: {acceleration_denoised[0]:.2f}, aY: {acceleration_denoised[1]:.2f}, aZ: {acceleration_denoised[2]:.2f} ; vX: {speed[0]:.2f}, vY: {speed[1]:.2f}, vZ: {speed[2]:.2f} ; pX: {position[0]:.2f}, pY: {position[1]:.2f}, pZ: {position[2]:.2f}       ')
-        sys.stdout.write(f'\raX: {acceleration_denoised[0]:.2f}, aY: {acceleration_denoised[1]:.2f}, aZ: {acceleration_denoised[2]:.2f} ; vX: {speed[0]:.2f}, vY: {speed[1]:.2f}, vZ: {speed[2]:.2f}     ')
+        # sys.stdout.write(f'\raX: {acceleration_denoised[0]:.2f}, aY: {acceleration_denoised[1]:.2f}, aZ: {acceleration_denoised[2]:.2f} ; vX: {speed[0]:.2f}, vY: {speed[1]:.2f}, vZ: {speed[2]:.2f}     ')
         sys.stdout.flush()
         sleep(0.02)
 
