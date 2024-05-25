@@ -43,8 +43,8 @@ position = np.array([0,
                      0], dtype=np.float32)
 
 for _ in range(100):
-    input_gyro_1 = mpu_1.gyro
-    input_gyro_2 = mpu_2.gyro
+    input_gyro_1 = np.array(mpu_1.gyro, dtype=np.float32)
+    input_gyro_2 = np.array(mpu_2.gyro, dtype=np.float32)
     input_acc_1 = mpu_1.acceleration
     input_acc_2 = mpu_2.acceleration
     input_acc = np.array([(input_acc_1[0] - input_acc_2[0])/2,
@@ -53,7 +53,7 @@ for _ in range(100):
     noise_1 += np.float32(0.01) * input_gyro_1
     noise_2 += np.float32(0.01) * input_gyro_2
     gravity += np.float32(0.01) * input_acc
-    sleep(0.02)
+    sleep(0.015)
 
 
 gravity_magnitude = np.linalg.norm(gravity)
@@ -78,8 +78,8 @@ try:
         # else:
         #     # print("no gps fix")
         #     pass
-        input_gyro_1 = np.array(mpu_1.gyro) - noise_1
-        input_gyro_2 = np.array(mpu_2.gyro) - noise_2
+        input_gyro_1 = np.array(mpu_1.gyro, dtype=np.float32) - noise_1
+        input_gyro_2 = np.array(mpu_2.gyro, dtype=np.float32) - noise_2
         input_gyro = np.array([(input_gyro_1[0] - input_gyro_2[0])/2,
                                (input_gyro_1[1] - input_gyro_2[1])/2,
                                (input_gyro_1[2] + input_gyro_2[2])/2], dtype=np.float32)
@@ -139,7 +139,7 @@ try:
         # sys.stdout.write(f'\raX: {acceleration_denoised[0]:.2f}, aY: {acceleration_denoised[1]:.2f}, aZ: {acceleration_denoised[2]:.2f} ; vX: {speed[0]:.2f}, vY: {speed[1]:.2f}, vZ: {speed[2]:.2f} ; pX: {position[0]:.2f}, pY: {position[1]:.2f}, pZ: {position[2]:.2f}       ')
         # sys.stdout.write(f'\raX: {acceleration_denoised[0]:.2f}, aY: {acceleration_denoised[1]:.2f}, aZ: {acceleration_denoised[2]:.2f} ; vX: {speed[0]:.2f}, vY: {speed[1]:.2f}, vZ: {speed[2]:.2f}     ')
         sys.stdout.flush()
-        sleep(0.02)
+        sleep(0.015)
 
 except KeyboardInterrupt:
     # Graceful exit on interrupt
