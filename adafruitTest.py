@@ -52,7 +52,7 @@ for _ in range(100):
                            (input_acc_1[2] + input_acc_2[2])/2], dtype=np.float32)
     noise += np.float32(0.01) * input_gyro
     gravity += np.float32(0.01) * input_acc
-    sleep(0.01)
+    sleep(0.02)
 
 
 gravity_magnitude = np.linalg.norm(gravity)
@@ -138,7 +138,7 @@ try:
         # sys.stdout.write(f'\raX: {acceleration_denoised[0]:.2f}, aY: {acceleration_denoised[1]:.2f}, aZ: {acceleration_denoised[2]:.2f} ; vX: {speed[0]:.2f}, vY: {speed[1]:.2f}, vZ: {speed[2]:.2f} ; pX: {position[0]:.2f}, pY: {position[1]:.2f}, pZ: {position[2]:.2f}       ')
         # sys.stdout.write(f'\raX: {acceleration_denoised[0]:.2f}, aY: {acceleration_denoised[1]:.2f}, aZ: {acceleration_denoised[2]:.2f} ; vX: {speed[0]:.2f}, vY: {speed[1]:.2f}, vZ: {speed[2]:.2f}     ')
         sys.stdout.flush()
-        sleep(0.01)
+        sleep(0.02)
 
 except KeyboardInterrupt:
     # Graceful exit on interrupt
