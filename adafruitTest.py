@@ -78,7 +78,7 @@ try:
         #     pass
         input_gyro_1 = np.array(mpu_1.gyro, dtype=np.float32) - noise_1
         input_gyro_2 = np.array(mpu_2.gyro, dtype=np.float32) - noise_2
-        input_gyro = 0.5 * (input_gyro_1 + input_acc_2)
+        input_gyro = 0.5 * (input_gyro_1 + input_gyro_2)
         input_acc_1 = np.array(mpu_1.acceleration, dtype=np.float32)
         input_acc_2 = np.array(mpu_2.acceleration, dtype=np.float32)
         input_acc = 0.5 * (input_acc_1 + input_acc_2)
