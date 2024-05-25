@@ -8,10 +8,11 @@ import adafruit_mpu6050
 import numpy as np
 import sys
 import pandas as pd
+from adafruit_extended_bus import ExtendedI2C as I2C
 
 uart = serial.Serial("/dev/serial0", baudrate=9600)
-i2c_1 = board.I2C(board.SCL, board.SDA)
-i2c_2 = board.I2C(board.GPIO6, board.GPIO5)
+i2c_1 = I2C(1)
+i2c_2 = I2C(3)
 mpu_1 = adafruit_mpu6050.MPU6050(i2c_1)
 mpu_2 = adafruit_mpu6050.MPU6050(i2c_2)
 # mpu.sleep = False
@@ -39,8 +40,18 @@ position = np.array([0,
                      0], dtype=np.float32)
 
 for _ in range(100):
-    noise += np.float32(0.01) * np.array(mpu.gyro)
-    gravity += np.float32(0.01) * np.array(mpu.acceleration)
+    input_gyro_1 = mpu_1.gyro
+    input_gyro_2 = mpu_2.gyro
+    input_gyro = np.array([(input_gyro_1[0] - input_gyro_2[0])/2,
+                           (input_gyro_1[1] - input_gyro_2[1])/2,
+                           (input_gyro_1[2] + input_gyro_2[2])/2], dtype=np.float32)
+    input_acc_1 = mpu_1.acceleration
+    input_acc_2 = mpu_2.acceleration
+    input_acc = np.array([(input_acc_1[0] - input_acc_2[0])/2,
+                           (input_acc_1[1] - input_acc_2[1])/2,
+                           (input_acc_1[2] + input_acc_2[2])/2], dtype=np.float32)
+    noise += np.float32(0.01) * input_gyro
+    gravity += np.float32(0.01) * input_acc
     sleep(0.01)
 
 
@@ -66,12 +77,20 @@ try:
         # else:
         #     # print("no gps fix")
         #     pass
-        input_gyro = mpu.gyro
-        input_acc = np.array(mpu.acceleration)
+        input_gyro_1 = mpu_1.gyro
+        input_gyro_2 = mpu_2.gyro
+        input_gyro = np.array([(input_gyro_1[0] - input_gyro_2[0])/2,
+                            (input_gyro_1[1] - input_gyro_2[1])/2,
+                            (input_gyro_1[2] + input_gyro_2[2])/2], dtype=np.float32)
+        input_acc_1 = mpu_1.acceleration
+        input_acc_2 = mpu_2.acceleration
+        input_acc = np.array([(input_acc_1[0] - input_acc_2[0])/2,
+                            (input_acc_1[1] - input_acc_2[1])/2,
+                            (input_acc_1[2] + input_acc_2[2])/2], dtype=np.float32)
         dT = np.float32(perf_counter()) - lasttime
         lasttime = np.float32(perf_counter())
         
-        dRotation = np.array(input_gyro, dtype=np.float32) - noise
+        dRotation = input_gyro - noise
         dRotation = np.where(np.less_equal(np.abs(dRotation), np.float32(0.05)), 0, dRotation)
         
         # gravity_normalized_mid = gravity_normalized + (np.cross(-dRotation, gravity_normalized) * dT / 2)
@@ -102,7 +121,9 @@ try:
         # speed -= np.float32(0.001) * speed / np.linalg.norm(speed)
         position += np.where(np.less_equal(np.abs(speed), np.float32(0.2)), 0, speed) * dT
 
-        data = {'GyroX': dRotation[0], 'GyroY': dRotation[1], 'GyroZ': dRotation[2],
+        data = {'InpGyro_1X': input_gyro_1[0], 'InpGyro_1Y': input_gyro_1[1], 'InpGyro_1Z': input_gyro_1[2],
+                'InpGyro_2X': input_gyro_2[0], 'InpGyro_2Y': input_gyro_2[1], 'InpGyro_2Z': input_gyro_2[2],
+                'GyroX': dRotation[0], 'GyroY': dRotation[1], 'GyroZ': dRotation[2],
                 'ExpGravityX': gravity_normalized[0], 'ExpGravityY': gravity_normalized[1],  'ExpGravityZ': gravity_normalized[2],
                 'ExpOxX': ox[0], 'ExpOxY': ox[1], 'ExpOxZ': ox[2],
                 'ExpOyX': oy[0], 'ExpOyY': oy[1], 'ExpOyZ': oy[2],

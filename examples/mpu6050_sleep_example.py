@@ -17,6 +17,6 @@ i2c_2 = I2C(3)
 mpu_1 = adafruit_mpu6050.MPU6050(i2c_1)
 mpu_2 = adafruit_mpu6050.MPU6050(i2c_2)
 while True:
-    print(f'mpu_1: {mpu_1.acceleration:.2f} ; {mpu_1.gyro:.2f}')
-    print(f'mpu_2: {mpu_2.acceleration:.2f} ; {mpu_2.gyro:.2f}')
+    print(f'mpu_1: {mpu_1.acceleration} ; {mpu_1.gyro}')
+    print(f'mpu_2: {mpu_2.acceleration} ; {mpu_2.gyro}')
     sleep(1)
