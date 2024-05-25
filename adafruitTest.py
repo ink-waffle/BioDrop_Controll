@@ -23,9 +23,12 @@ mpu_2 = adafruit_mpu6050.MPU6050(i2c_2)
 # sleep(0.1)
 gps = adafruit_gps.GPS(uart, debug=False)
 
-noise = np.array([0,
-                  0,
-                  0], dtype=np.float32)
+noise_1 = np.array([0,
+                    0,
+                    0], dtype=np.float32)
+noise_2 = np.array([0,
+                    0,
+                    0], dtype=np.float32)
 acceleration_noise = np.array([0,
                                 0,
                                 0], dtype=np.float32)
@@ -42,15 +45,13 @@ position = np.array([0,
 for _ in range(100):
     input_gyro_1 = mpu_1.gyro
     input_gyro_2 = mpu_2.gyro
-    input_gyro = np.array([(input_gyro_1[0] - input_gyro_2[0])/2,
-                           (input_gyro_1[1] - input_gyro_2[1])/2,
-                           (input_gyro_1[2] + input_gyro_2[2])/2], dtype=np.float32)
     input_acc_1 = mpu_1.acceleration
     input_acc_2 = mpu_2.acceleration
     input_acc = np.array([(input_acc_1[0] - input_acc_2[0])/2,
                            (input_acc_1[1] - input_acc_2[1])/2,
                            (input_acc_1[2] + input_acc_2[2])/2], dtype=np.float32)
-    noise += np.float32(0.01) * input_gyro
+    noise_1 += np.float32(0.01) * input_gyro_1
+    noise_2 += np.float32(0.01) * input_gyro_2
     gravity += np.float32(0.01) * input_acc
     sleep(0.02)
 
@@ -77,20 +78,20 @@ try:
         # else:
         #     # print("no gps fix")
         #     pass
-        input_gyro_1 = mpu_1.gyro
-        input_gyro_2 = mpu_2.gyro
+        input_gyro_1 = np.array(mpu_1.gyro) - noise_1
+        input_gyro_2 = np.array(mpu_2.gyro) - noise_2
         input_gyro = np.array([(input_gyro_1[0] - input_gyro_2[0])/2,
-                            (input_gyro_1[1] - input_gyro_2[1])/2,
-                            (input_gyro_1[2] + input_gyro_2[2])/2], dtype=np.float32)
+                               (input_gyro_1[1] - input_gyro_2[1])/2,
+                               (input_gyro_1[2] + input_gyro_2[2])/2], dtype=np.float32)
         input_acc_1 = mpu_1.acceleration
         input_acc_2 = mpu_2.acceleration
         input_acc = np.array([(input_acc_1[0] - input_acc_2[0])/2,
-                            (input_acc_1[1] - input_acc_2[1])/2,
-                            (input_acc_1[2] + input_acc_2[2])/2], dtype=np.float32)
+                              (input_acc_1[1] - input_acc_2[1])/2,
+                              (input_acc_1[2] + input_acc_2[2])/2], dtype=np.float32)
         dT = np.float32(perf_counter()) - lasttime
         lasttime = np.float32(perf_counter())
         
-        dRotation = input_gyro - noise
+        dRotation = input_gyro
         dRotation = np.where(np.less_equal(np.abs(dRotation), np.float32(0.02)), 0, dRotation)
         
         # gravity_normalized_mid = gravity_normalized + (np.cross(-dRotation, gravity_normalized) * dT / 2)
