@@ -9,10 +9,11 @@ import adafruit_mpu6050
 import numpy as np
 import sys
 import pandas as pd
+from adafruit_extended_bus import ExtendedI2C as I2C
 
 uart = serial.Serial("/dev/serial0", baudrate=9600)
-i2c_1 = busio.I2C(board.SCL, board.SDA)
-i2c_2 = busio.I2C(board.D6, board.D5)
+i2c_1 = I2C(1)
+i2c_2 = I2C(3)
 mpu_1 = adafruit_mpu6050.MPU6050(i2c_1)
 mpu_2 = adafruit_mpu6050.MPU6050(i2c_2)
 while True:
