@@ -1,63 +1,50 @@
-import datetime
-import serial
-import adafruit_gps
-from time import sleep, perf_counter
+# SPDX-FileCopyrightText: 2017 Limor Fried for Adafruit Industries
+#
+# SPDX-License-Identifier: MIT
+
+# pylint: disable=broad-except, eval-used, unused-import
+
+"""CircuitPython I2C Device Address Scan"""
+import time
 import board
-import sys
-import adafruit_mpu6050
-import numpy as np
-import sys
-import pandas as pd
+import busio
 
-i2c = board.I2C()
-mpu = adafruit_mpu6050.MPU6050(i2c)
+# List of potential I2C busses
+ALL_I2C = ("board.I2C()", "board.STEMMA_I2C()", "busio.I2C(board.GP1, board.GP0)")
 
-noise = np.array([0,
-                  0,
-                  0], dtype=np.float32)
+# Determine which busses are valid
+found_i2c = []
+for name in ALL_I2C:
+    try:
+        print("Checking {}...".format(name), end="")
+        bus = eval(name)
+        bus.unlock()
+        found_i2c.append((name, bus))
+        print("ADDED.")
+    except Exception as e:
+        print("SKIPPED:", e)
 
-for i in range(40):
-    noise += np.float32(0.025) * np.array(mpu.gyro)
-    sleep(0.025)
-
-
-
-debug_df = []
-
-lasttime = np.float32(perf_counter())
-try:
+# Scan valid busses
+if len(found_i2c):
+    print("-" * 40)
+    print("I2C SCAN")
+    print("-" * 40)
     while True:
-        input_gyro = mpu.gyro
-        dT = np.float32(perf_counter()) - lasttime
-        lasttime = np.float32(perf_counter())
-        
-        # dRotation = np.array(mpu.gyro, dtype=np.float32) - noise
-        # dRotation = np.where(np.less_equal(np.abs(dRotation), np.float32(0.01)), 0, dRotation)
-        
+        for bus_info in found_i2c:
+            name = bus_info[0]
+            bus = bus_info[1]
 
-        data = {'GyroX': input_gyro[0], 'GyroY': input_gyro[1], 'GyroZ': input_gyro[2],
-                'NoiseX': noise[0], 'NoiseY': noise[1], 'NoiseZ': noise[2],
-                'dT': dT
-                }
-        debug_df.append(data)
+            while not bus.try_lock():
+                pass
 
-        # sys.stdout.write(f'\raX: {acceleration[0]:.2f}, aY: {acceleration[1]:.2f}, aZ: {acceleration[2]:.2f} ; vX: {speed[0]:.2f}, vY: {speed[1]:.2f}, zZ: {speed[2]:.2f} ; pX: {position[0]:.2f}, pY: {position[1]:.2f}, pZ: {position[2]:.2f}       ')
-        sys.stdout.flush()
-        sleep(0.01)
+            print(
+                name,
+                "addresses found:",
+                [hex(device_address) for device_address in bus.scan()],
+            )
 
-except KeyboardInterrupt:
-    # Graceful exit on interrupt
-    print("KeyboardInterrupt detected. Saving data and exiting...")
-    
-finally:
-    # Convert list of telemetry data to a pandas DataFrame
-    df = pd.DataFrame(debug_df)
+            bus.unlock()
 
-    # Get the current time for the filename
-    current_time = datetime.datetime.now().strftime("%m%d_%H%M%S")
-
-    # Export DataFrame to a CSV file with the current time in the filename
-    filename = f"logs/accelerometerlogs/gyroTest_{current_time}.csv"
-    df.to_csv(filename, index=False)
-
-    print(f"Telemetry data saved to {filename}")
+        time.sleep(2)
+else:
+    print("No valid I2C bus found.")
