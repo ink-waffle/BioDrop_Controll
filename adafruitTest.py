@@ -45,11 +45,9 @@ position = np.array([0,
 for _ in range(100):
     input_gyro_1 = np.array(mpu_1.gyro, dtype=np.float32)
     input_gyro_2 = np.array(mpu_2.gyro, dtype=np.float32)
-    input_acc_1 = mpu_1.acceleration
-    input_acc_2 = mpu_2.acceleration
-    input_acc = np.array([(input_acc_1[0] - input_acc_2[0])/2,
-                           (input_acc_1[1] - input_acc_2[1])/2,
-                           (input_acc_1[2] + input_acc_2[2])/2], dtype=np.float32)
+    input_acc_1 = np.array(mpu_1.acceleration, dtype=np.float32)
+    input_acc_2 = np.array(mpu_2.acceleration, dtype=np.float32)
+    input_acc = 0.5 * (input_acc_1 + input_acc_2)
     noise_1 += np.float32(0.01) * input_gyro_1
     noise_2 += np.float32(0.01) * input_gyro_2
     gravity += np.float32(0.01) * input_acc
@@ -80,14 +78,10 @@ try:
         #     pass
         input_gyro_1 = np.array(mpu_1.gyro, dtype=np.float32) - noise_1
         input_gyro_2 = np.array(mpu_2.gyro, dtype=np.float32) - noise_2
-        input_gyro = np.array([(input_gyro_1[0] - input_gyro_2[0])/2,
-                               (input_gyro_1[1] - input_gyro_2[1])/2,
-                               (input_gyro_1[2] + input_gyro_2[2])/2], dtype=np.float32)
-        input_acc_1 = mpu_1.acceleration
-        input_acc_2 = mpu_2.acceleration
-        input_acc = np.array([(input_acc_1[0] - input_acc_2[0])/2,
-                              (input_acc_1[1] - input_acc_2[1])/2,
-                              (input_acc_1[2] + input_acc_2[2])/2], dtype=np.float32)
+        input_gyro = 0.5 * (input_gyro_1 + input_acc_2)
+        input_acc_1 = np.array(mpu_1.acceleration, dtype=np.float32)
+        input_acc_2 = np.array(mpu_2.acceleration, dtype=np.float32)
+        input_acc = 0.5 * (input_acc_1 + input_acc_2)
         dT = np.float32(perf_counter()) - lasttime
         lasttime = np.float32(perf_counter())
         
