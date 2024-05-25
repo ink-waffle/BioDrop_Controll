@@ -10,8 +10,10 @@ import sys
 import pandas as pd
 
 uart = serial.Serial("/dev/serial0", baudrate=9600)
-i2c = board.I2C()
-mpu = adafruit_mpu6050.MPU6050(i2c)
+i2c_1 = board.I2C(board.SCL, board.SDA)
+i2c_2 = board.I2C(board.GPIO6, board.GPIO5)
+mpu_1 = adafruit_mpu6050.MPU6050(i2c_1)
+mpu_2 = adafruit_mpu6050.MPU6050(i2c_2)
 # mpu.sleep = False
 # mpu.cycle = True
 # mpu.cycle_Rate = adafruit_mpu6050.Rate.CYCLE_40_HZ

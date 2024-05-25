@@ -1,51 +1,20 @@
-# SPDX-FileCopyrightText: 2017 Limor Fried for Adafruit Industries
-#
-# SPDX-License-Identifier: MIT
-
-# pylint: disable=broad-except, eval-used, unused-import
-
-"""CircuitPython I2C Device Address Scan"""
-import time
+import datetime
+import serial
+import adafruit_gps
+from time import sleep, perf_counter
 import board
-import busio
+import sys
+import adafruit_mpu6050
+import numpy as np
+import sys
+import pandas as pd
 
-# List of potential I2C busses
-ALL_I2C = ("board.I2C()", "board.STEMMA_I2C()", "busio.I2C(board.GP1, board.GP0)")
-
-# Determine which busses are valid
-found_i2c = []
-for name in ALL_I2C:
-    try:
-        print("Checking {}...".format(name), end="")
-        bus = eval(name)
-        bus.unlock()
-        found_i2c.append((name, bus))
-        print("ADDED.")
-    except Exception as e:
-        print("SKIPPED:", e)
-
-# Scan valid busses
-if len(found_i2c):
-    print("-" * 40)
-    print("I2C SCAN")
-    print("-" * 40)
-    while True:
-        for index, bus_info in enumerate(found_i2c):
-            name = bus_info[0]
-            bus = bus_info[1]
-
-            while not bus.try_lock():
-                pass
-
-            print(
-                index,
-                name,
-                "addresses found:",
-                [hex(device_address) for device_address in bus.scan()],
-            )
-
-            bus.unlock()
-
-        time.sleep(2)
-else:
-    print("No valid I2C bus found.")
+uart = serial.Serial("/dev/serial0", baudrate=9600)
+i2c_1 = board.I2C(board.SCL, board.SDA)
+i2c_2 = board.I2C(board.GPIO6, board.GPIO5)
+mpu_1 = adafruit_mpu6050.MPU6050(i2c_1)
+mpu_2 = adafruit_mpu6050.MPU6050(i2c_2)
+while True:
+    print(f'mpu_1: {mpu_1.acceleration} ; {mpu_1.gyro}')
+    print(f'mpu_2: {mpu_2.acceleration} ; {mpu_2.gyro}')
+    sleep(1)
