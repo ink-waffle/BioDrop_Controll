@@ -30,7 +30,7 @@ if len(found_i2c):
     print("I2C SCAN")
     print("-" * 40)
     while True:
-        for bus_info in found_i2c:
+        for index, bus_info in enumerate(found_i2c):
             name = bus_info[0]
             bus = bus_info[1]
 
@@ -38,6 +38,7 @@ if len(found_i2c):
                 pass
 
             print(
+                index,
                 name,
                 "addresses found:",
                 [hex(device_address) for device_address in bus.scan()],
